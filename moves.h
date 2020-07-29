@@ -1,14 +1,19 @@
-#ifndef moveh
-#define moveh
+#ifndef movesh
+#define movesh
 
 #include<string>
 #include<vector>
+#include"board.h"
 
 using namespace std;
 
 class move{
 
     public:
+        moves();
+        moves(board*);
+        virtual ~moves(){}
+        void generateMove(board*);
         vector<string> getEat();
         vector<string> getReveal();
         vector<string> getSpread();

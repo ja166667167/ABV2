@@ -1,6 +1,14 @@
 #include<iostream>
-#include"move.h"
+#include"moves.h"
 
+move::moves(){}
+move::moves(board *b){
+    generateMove(b);
+}
+
+void move::generateMove(board *b){
+
+}
 vector<string> move::getEat(){ return eatMove;}
 vector<string> move::getReveal(){ return revealMove;}
 vector<string> move::getSpread(){ return spreadMove;}
