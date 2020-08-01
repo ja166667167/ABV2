@@ -3,6 +3,8 @@
 
 #include<iostream>
 #include<string>
+#include<vector>
+#include<fstream>
 #include"U32.h"
 #include"moves.h"
 
@@ -15,10 +17,19 @@ class board{
 
         virtual ~board(){}
 
-        U32 piece[16];
-        U32 red,black,occupied;
-        moves possibleMoves= new move(b);
+        U32 piece[16]={0};
+        
+
+        moves possibleMoves;
         vector<board*> possibleBoards;
+
+        void readBoardFile();
+        void initData(); //using piece[], init red black occupied moves nextBoards
+        
+        void setPosBoard();
+        
+        void printBoard();
+
 
 };
 

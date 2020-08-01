@@ -14,6 +14,7 @@ U32 const pMove[32] ={0x00000012, 0x00000025, 0x0000004a, 0x00000084, 0x00000121
 
 int U32toInt(U32);
 U32 InttoU32(int);
-
+U32 LS1B(U32);
+U32 MS1B(U32);
 
 #endif

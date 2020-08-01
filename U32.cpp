@@ -19,3 +19,15 @@ U32 InttoU32(int p){
     cout<<u<<endl;
     return u;
 }
+U32 LS1B(U32 x){
+    return x & (-x);
+}
+U32 MS1B(U32 x){
+    x |= (x >> 1);
+    x |= (x >> 2);
+    x |= (x >> 4);
+    x |= (x >> 8);
+    x |= (x >> 16);
+    //x |= (x >> 32);
+    return (x >> 1) + 1;
+}
