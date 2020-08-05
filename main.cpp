@@ -1,12 +1,15 @@
 #include<iostream>
-#include"AB.h"
+#include<vector>
+#include<fstream>
+#include<sstream>
+#include"ab.h"
 
 
 using namespace std;
 
-board* readFile(){
+treeNode* readFile(){
 
-    board *newBoard = new board();
+    treeNode *root=new treeNode();
     
 
 
@@ -62,22 +65,22 @@ board* readFile(){
             U32Dest = InttoU32(intDest);
             for (int i = 0; i < 16; i++)
             {
-                if ((newBoard->piece[i] != 0) & ((newBoard->piece[i] | U32Src) == newBoard->piece[i]))
+                if ((root->piece[i] != 0) & ((root->piece[i] | U32Src) == root->piece[i]))
                 {
                     
-                    newBoard->piece[i] = newBoard->piece[i] ^ U32Src;
+                    root->piece[i] = root->piece[i] ^ U32Src;
                     
-                    newBoard->piece[0] = newBoard->piece[0] | U32Src;
+                    root->piece[0] = root->piece[0] | U32Src;
                    
                     for (int j = 0; j < 16; j++)
                     {
-                        if ((newBoard->piece[j] != 0) & ((newBoard->piece[j] | U32Dest) == newBoard->piece[j]))
+                        if ((root->piece[j] != 0) & ((root->piece[j] | U32Dest) == root->piece[j]))
                         {
                             //printf("j=%d\n", j);
-                            newBoard->piece[j] = newBoard->piece[j] ^ U32Dest;
+                            root->piece[j] = root->piece[j] ^ U32Dest;
                         }
                     }
-                    newBoard->piece[i] = newBoard->piece[i] | U32Dest;
+                    root->piece[i] = root->piece[i] | U32Dest;
                 }
             }
         }
@@ -86,7 +89,7 @@ board* readFile(){
         {
             intRev = s[0] - 96 + (s[1] - 49) * 4;
             U32Rev = InttoU32(intRev);
-            newBoard->piece[15] = newBoard->piece[15] ^ U32Rev;
+            root->piece[15] = root->piece[15] ^ U32Rev;
 
             int i = 0;
             switch (s[3])
@@ -135,9 +138,9 @@ board* readFile(){
                 break;
             }
 
-            newBoard->piece[i] = newBoard->piece[i] | U32Rev;
-            newBoard->numUnrevealPiece[i]--;
-            //printf("i=%d,intRev=%d,rev=%x,newBoard->piece=%x\n",i,intRev,rev,newBoard->piece[i]);
+            root->piece[i] = root->piece[i] | U32Rev;
+            root->numUnrevealPiece[i]--;
+            //printf("i=%d,intRev=%d,rev=%x,root->piece=%x\n",i,intRev,rev,root->piece[i]);
         }
         //second part
         if (ss >> s)
@@ -150,22 +153,22 @@ board* readFile(){
                 U32Dest = InttoU32(intDest);
                 for (int i = 0; i < 16; i++)
                 {
-                    if ((newBoard->piece[i] != 0) & ((newBoard->piece[i] | U32Src) == newBoard->piece[i]))
+                    if ((root->piece[i] != 0) & ((root->piece[i] | U32Src) == root->piece[i]))
                     {
                         //printf("i=%d\n",i);
-                        newBoard->piece[i] = newBoard->piece[i] ^ U32Src;
-                        //printf("newBoard->piece=%d\n", newBoard->piece[i]);
-                        newBoard->piece[0] = newBoard->piece[0] | U32Src;
-                        //printf("[0]=%d\n", newBoard->piece[0]);
+                        root->piece[i] = root->piece[i] ^ U32Src;
+                        //printf("root->piece=%d\n", root->piece[i]);
+                        root->piece[0] = root->piece[0] | U32Src;
+                        //printf("[0]=%d\n", root->piece[0]);
                         for (int j = 0; j < 16; j++)
                         {
-                            if ((newBoard->piece[j] != 0) & ((newBoard->piece[j] | U32Dest) == newBoard->piece[j]))
+                            if ((root->piece[j] != 0) & ((root->piece[j] | U32Dest) == root->piece[j]))
                             {
                                 //printf("j=%d\n", j);
-                                newBoard->piece[j] = newBoard->piece[j] ^ U32Dest;
+                                root->piece[j] = root->piece[j] ^ U32Dest;
                             }
                         }
-                        newBoard->piece[i] = newBoard->piece[i] | U32Dest;
+                        root->piece[i] = root->piece[i] | U32Dest;
                     }
                 }
             }
@@ -173,7 +176,7 @@ board* readFile(){
             { //Reveal
                 intRev = s[0] - 96 + (s[1] - 49) * 4;
                 U32Rev = InttoU32(intRev);
-                newBoard->piece[15] = newBoard->piece[15] ^ U32Rev;
+                root->piece[15] = root->piece[15] ^ U32Rev;
 
                 int i = 0;
                 switch (s[3])
@@ -221,9 +224,9 @@ board* readFile(){
                     i = 14;
                     break;
                 }
-                newBoard->piece[i] = newBoard->piece[i] | U32Rev;
-                //newBoard->numUreveal->piece[i]--;
-                //printf("i=%d,intRev=%d,rev=%x,newBoard->piece=%x\n",i,intRev,rev,newBoard->piece[i]);
+                root->piece[i] = root->piece[i] | U32Rev;
+                //root->numUreveal->piece[i]--;
+                //printf("i=%d,intRev=%d,rev=%x,root->piece=%x\n",i,intRev,rev,root->piece[i]);
             }
         }
         //如果沒有後段 代表不是我先手
@@ -231,26 +234,32 @@ board* readFile(){
             meFirst = false;
     }
 
-    newBoard->playerColor = firstColor && meFirst;
+    root->playerColor = firstColor && meFirst;
 
     file.close();
-    return newBoard;
+    //generate move
+    root->generateMove();
+    return root;
 }
 
-board *newBoard=readFile();
+treeNode *root=readFile();
+
 
 
 int main(){
 
+ 
     int ans=0;
-    treeNode *root = new treeNode(newBoard);
-    try{
+    //try{
     ans=AB(root);
-    }
-    catch(std::bad_alloc &ba){
-        cout<<"bad Allocation caught:"<<ba.what()<<"\n";
-    }
-    cout<<getNodeCount()<<"\n";
-    cout<<ans<<"\n";
+    //}
+    //catch(std::bad_alloc &ba){
+    //    cout<<"bad Allocation caught:"<<ba.what()<<"\n";
+    //}
+
+    cout<<"nodes: "<<getNodeCount()<<"\n";
+
+    cout<<"ans= "<<ans<<"\n";
+
     return 0;
 }

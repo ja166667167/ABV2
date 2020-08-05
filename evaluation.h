@@ -1,11 +1,11 @@
 #ifndef EFh
 #define EFh
-#include"board.h"
+#include"treeNode.h"
 
 
 
-int chessTypeValue(board*);
-int pieceCount(board*,int);
+int chessTypeValue(treeNode*);
+int pieceCount(treeNode*,int);
 
 
 #endif

@@ -3,29 +3,42 @@
 
 #include<iostream>
 #include<vector>
-#include"board.h"
-#include"moves.h"
-
+#include"U32.h"
 
 
 class treeNode{
     public:
         treeNode();//empty
-        treeNode(board*); //root
+        treeNode(treeNode*); //root
         //treeNode(treeNode*,board*);//next nodes
+        treeNode(bool,U32[],int[]);
         virtual ~treeNode(){}
 
         int selection=0;
 
         //treeNode *parent;
-        //vector<treeNode*> children;
+        vector<treeNode*> children;
 
-        board *nodeBoard;
-        moves *boardMove;
+        //board *nodeBoard;
+        U32 piece[16]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0xFFFFFFFF};
+        bool playerColor;
+        int numUnrevealPiece[16] = {0,1,2,2,2,2,2,5,1,2,2,2,2,2,5,0};
+        //move boardMove;
+        vector<string> allMove;
+        U32 red=0,black=0,occupied=0;
+        void generateMove();
+        U32 generateCMove(U32);
+        void generateEat();
+        void generateReveal();
+        void generateSpeard();
+        void refreshRed();
+        void refreshBlack();
+        void refreshOccupied();
 
-        vector<board*>getNextBoard();
-       // void printBoard();
-        //void printMoves();
+        vector<treeNode*>setChildren();
+
+        void printBoard();
+        void printMoves();
         
 
 };
