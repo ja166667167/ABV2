@@ -108,6 +108,7 @@ int chessTypeValue(treeNode *valueNode){
             }
         }
     }
+    //cout<<"score="<<score<<endl;
     return score;
 }
 

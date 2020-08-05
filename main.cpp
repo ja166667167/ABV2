@@ -238,7 +238,6 @@ treeNode* readFile(){
 
     file.close();
     //generate move
-    root->generateMove();
     return root;
 }
 
@@ -248,14 +247,17 @@ treeNode *root=readFile();
 
 int main(){
 
- 
+    
+
     int ans=0;
-    //try{
+    try{
     ans=AB(root);
-    //}
-    //catch(std::bad_alloc &ba){
-    //    cout<<"bad Allocation caught:"<<ba.what()<<"\n";
-    //}
+    }
+    catch(std::bad_alloc &ba){
+       cout<<"bad Allocation caught:"<<ba.what()<<"\n";
+    }
+
+
 
     cout<<"nodes: "<<getNodeCount()<<"\n";
 

@@ -24,18 +24,9 @@ class treeNode{
         bool playerColor;
         int numUnrevealPiece[16] = {0,1,2,2,2,2,2,5,1,2,2,2,2,2,5,0};
         //move boardMove;
-        vector<string> allMove;
-        U32 red=0,black=0,occupied=0;
-        void generateMove();
-        U32 generateCMove(U32);
-        void generateEat();
-        void generateReveal();
-        void generateSpeard();
-        void refreshRed();
-        void refreshBlack();
-        void refreshOccupied();
 
-        vector<treeNode*>setChildren();
+
+        
 
         void printBoard();
         void printMoves();

@@ -7,16 +7,17 @@
 #include"evaluation.h"
 
 
-
-
 int AB(treeNode*);
 
 int max(treeNode*,int,int);
 int min(treeNode*,int,int);
 
-
-
-
 int getNodeCount();
+
+U32 generateCMove(U32);
+
+void refreshRed(treeNode*);
+void refreshBlack(treeNode*);
+void refreshOccupied(treeNode*);
 
 #endif
