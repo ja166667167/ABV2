@@ -5,30 +5,27 @@
 #include<string>
 #include<vector>
 #include<fstream>
+#include<sstream>
 #include"U32.h"
-#include"moves.h"
 
 
 class board{
     public:
         board();
-        board(board*,string);
-        board(U32[]);
+        board(board*);
+        //board(board*,string);
+        board(bool,int[],U32[]);
 
         virtual ~board(){}
 
-        U32 piece[16]={0};
-        
+        U32 piece[16]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0xFFFFFFFF};
+        //red=0 black=1
+        bool playerColor;
+        int numUnrevealPiece[16] = {0,1,2,2,2,2,2,5,1,2,2,2,2,2,5,0};
 
-        moves possibleMoves;
-        vector<board*> possibleBoards;
+       
 
-        void readBoardFile();
-        void initData(); //using piece[], init red black occupied moves nextBoards
-        
-        void setPosBoard();
-        
-        void printBoard();
+        //void printBoard();
 
 
 };
