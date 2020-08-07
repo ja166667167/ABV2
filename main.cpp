@@ -1,7 +1,8 @@
 #include<iostream>
 #include<vector>
 #include<fstream>
-#include<sstream>
+#include<sstream>   
+#include<ctime>
 #include"ab.h"
 
 
@@ -247,20 +248,19 @@ treeNode *root=readFile();
 
 int main(){
 
-    
+    clock_t t = clock();
 
     int ans=0;
     try{
-    ans=AB(root);
+    AB(root);
     }
     catch(std::bad_alloc &ba){
        cout<<"bad Allocation caught:"<<ba.what()<<"\n";
     }
-
-
-
+    t=clock()-t;
+    cout<<"time="<<((float)t)/CLOCKS_PER_SEC<<"\n";
+    cout<<"depth="<<getDepthLim()<<"\n";
     cout<<"nodes: "<<getNodeCount()<<"\n";
-
     cout<<"ans= "<<ans<<"\n";
 
     return 0;

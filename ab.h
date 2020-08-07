@@ -3,18 +3,22 @@
 
 #include<iostream>
 #include<vector>
+#include<fstream>
 #include"treeNode.h"
 #include"evaluation.h"
 
 
-int AB(treeNode*);
+void AB(treeNode*);
 
 int max(treeNode*,int,int);
 int min(treeNode*,int,int);
 
-int getNodeCount();
-
+string getOutPut();
+unsigned long long getNodeCount();
+int getDepthLim();
 U32 generateCMove(U32);
+
+void makeMove(string);
 
 void refreshRed(treeNode*);
 void refreshBlack(treeNode*);

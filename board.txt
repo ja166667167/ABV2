@@ -1,5 +1,5 @@
-* 9:15pm August 1, 2020
-* Player1 vs Player2
+* 6:7pm Aug 6, 2020
+* Player1(a1) vs Player2(a0)
 * 1 2 2 2 2 2 5 1 2 2 2 2 2 5
 * X X X X
 * X X X X
@@ -10,7 +10,4 @@
 * X X X X
 * X X X X
 * first 2
-* time 900000
-* 1. d7(p)
-* Comment 0 0
-0. 6943
+* time 900

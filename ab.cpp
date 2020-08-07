@@ -1,18 +1,22 @@
-#include"AB.h"
+#include"ab.h"
 
-int depthLimit=7;
+int depthLimit=3;
 
 int depthCount=0;
-int nodeCount=1;
+
+unsigned long long nodeCount=1;
 
 U32 red=0,black=0,occupied=0;
 
-int AB(treeNode* root){
-    return max(root,INT_MIN,INT_MAX);
+int outPutScore=0;
+string outPut;
+void AB(treeNode* root){
+    outPutScore = max(root,INT_MIN,INT_MAX);
+    makeMove(outPut);
 }
 
 int max(treeNode *thisNode,int alpha,int beta){
-    cout<<"--------------------------------\n";
+    //cout<<"--------------------------------\n";
     nodeCount++;
     //int t;
     int m =alpha;
@@ -123,14 +127,15 @@ int max(treeNode *thisNode,int alpha,int beta){
 //next level                            
                             depthCount++;
                             int t=min(newNode,m,beta);
-                                if(t>m){
+                            delete newNode;
+                            if(t>m){
                                         m=t;
-                                        //thisNode->selection=i;
+                                        if(depthCount==0)outPut=result;
                                 }
-                                if(m>=beta){
+                            if(m>=beta){
                                     depthCount--;
                                     return m;
-                                }
+                            }
                         }
                         else if( result[0]=='R'){
                             int revP =     result[2] - 96 + (    result[3] - 49) * 4;
@@ -146,9 +151,10 @@ int max(treeNode *thisNode,int alpha,int beta){
 //next level                                    
                                     depthCount++;
                                     int t=min(newNode,m,beta);
+                                    delete newNode;
                                     if(t>m){
                                             m=t;
-                                            //thisNode->selection=i;
+                                            if(depthCount==0)outPut=result;
                                     }
                                     if(m>=beta){
                                         depthCount--;
@@ -254,9 +260,10 @@ int max(treeNode *thisNode,int alpha,int beta){
 //next level                            
                             depthCount++;
                             int t=min(newNode,m,beta);
+                            delete newNode;
                             if(t>m){
                                     m=t;
-                                    //thisNode->selection=i;
+                                    if(depthCount==0)outPut=result;
                             }
                             if(m>=beta){
                                 depthCount--;
@@ -277,9 +284,10 @@ int max(treeNode *thisNode,int alpha,int beta){
 //next level                                    
                                     depthCount++;
                                     int t=min(newNode,m,beta);
+                                    delete newNode;
                                     if(t>m){
                                             m=t;
-                                            //thisNode->selection=i;
+                                            if(depthCount==0)outPut=result;
                                     }
                                     if(m>=beta){
                                         depthCount--;
@@ -341,9 +349,10 @@ int max(treeNode *thisNode,int alpha,int beta){
 //next level                
                 depthCount++;
                 int t=min(newNode,m,beta);
+                delete newNode;
                 if(t>m){
                         m=t;
-                        //thisNode->selection=i;
+                        if(depthCount==0)outPut=result;
                 }
                 if(m>=beta){
                     depthCount--;
@@ -364,9 +373,10 @@ int max(treeNode *thisNode,int alpha,int beta){
 //next level                        
                         depthCount++;
                         int t=min(newNode,m,beta);
+                        delete newNode;
                         if(t>m){
                                 m=t;
-                                //thisNode->selection=i;
+                                if(depthCount==0)outPut=result;
                         }
                         if(m>=beta){
                             depthCount--;
@@ -390,7 +400,7 @@ int max(treeNode *thisNode,int alpha,int beta){
 }
 
 int min(treeNode *thisNode,int alpha,int beta){
-    cout<<"--------------------------------\n";
+    //cout<<"--------------------------------\n";
     nodeCount++;
     //int t;
     int m =beta;
@@ -419,7 +429,7 @@ int min(treeNode *thisNode,int alpha,int beta){
                     U32 src = U32toInt(mask);
                     if (i == 1)
                     {
-                        dest = pMove[src] & ((black ^    thisNode->piece[14])|  thisNode->piece[0]) ;
+                        dest = pMove[src] & ((black ^ thisNode->piece[14])|  thisNode->piece[0]) ;
                         //printf("%d\n",i);
                     }
                     else if (i == 2)
@@ -467,7 +477,7 @@ int min(treeNode *thisNode,int alpha,int beta){
                         result.append(U32toString(mask));
                         result.append(1, '-');
                         result.append(U32toString(mask2));
-                        cout<<result<<"\n";
+                        //cout<<result<<"\n";
 
 //generate board with move
                         if (result.empty())
@@ -501,9 +511,10 @@ int min(treeNode *thisNode,int alpha,int beta){
 //next level                            
                             depthCount++;
                             int t=max(newNode,alpha,m);
+                            delete newNode;
                             if(t<m){
                                     m=t;
-                                    //thisNode->selection=i;
+                                    if(depthCount==0)outPut=result;
                             }
                             if(m<=alpha){
                                 depthCount--;
@@ -524,9 +535,10 @@ int min(treeNode *thisNode,int alpha,int beta){
 //nexl level                                    
                                     depthCount++;
                                     int t=max(newNode,alpha,m);
+                                    delete newNode;
                                     if(t<m){
                                             m=t;
-                                            //thisNode->selection=i;
+                                            if(depthCount==0)outPut=result;
                                     }
                                     if(m<=alpha){
                                         depthCount--;
@@ -599,7 +611,7 @@ int min(treeNode *thisNode,int alpha,int beta){
                         result.append(1, '-');
                         result.append(U32toString(mask2));
                         //eatMove.push_back(result);
-                        cout<<result<<"\n";
+                        //cout<<result<<"\n";
 //generate board with move
                         if (result.empty())
                         {
@@ -632,9 +644,10 @@ int min(treeNode *thisNode,int alpha,int beta){
 //next level                            
                             depthCount++;
                             int t=max(newNode,alpha,m);
+                            delete newNode;
                             if(t<m){
                                     m=t;
-                                    //thisNode->selection=i;
+                                    if(depthCount==0)outPut=result;
                             }
                             if(m<=alpha){
                                 depthCount--;
@@ -655,9 +668,10 @@ int min(treeNode *thisNode,int alpha,int beta){
 //next level                                    
                                     depthCount++;
                                     int t=max(newNode,alpha,m);
+                                    delete newNode;
                                     if(t<m){
                                             m=t;
-                                            //thisNode->selection=i;
+                                            if(depthCount==0)outPut=result;
                                     }
                                     if(m<=alpha){
                                         depthCount--;
@@ -719,9 +733,10 @@ int min(treeNode *thisNode,int alpha,int beta){
 //next level
                 depthCount++;
                 int t=max(newNode,alpha,m);
+                delete newNode;
                 if(t<m){
                         m=t;
-                        //thisNode->selection=i;
+                        if(depthCount==0)outPut=result;
                 }
                 if(m<=alpha){
                     depthCount--;
@@ -742,9 +757,10 @@ int min(treeNode *thisNode,int alpha,int beta){
 //next level                        
                         depthCount++;
                         int t=max(newNode,alpha,m);
+                        delete newNode;;
                         if(t<m){
                                 m=t;
-                                //thisNode->selection=i;
+                                if(depthCount==0)outPut=result;
                         }
                         if(m<=alpha){
                             depthCount--;
@@ -765,10 +781,15 @@ int min(treeNode *thisNode,int alpha,int beta){
     return m;
 }
 
-int getNodeCount(){
+unsigned long long getNodeCount(){
     return nodeCount;
 }
-
+int getDepthLim(){
+    return depthLimit;
+}
+string getOutPut(){
+    return outPut;
+}
 
 U32 generateCMove(U32 u32src){
     int intSrc = U32toInt(u32src);
@@ -894,5 +915,23 @@ void refreshOccupied(treeNode*thisNode){
     //exit(1);
 }
 
-
+void makeMove(string s){
+    ofstream move("move.txt");
+    if(move.is_open()){
+        if(s[2]=='-'){
+            move<<"0\n";
+            move<<s[0]<<s[1]<<"\n";
+            move<<s[3]<<s[4];
+        }
+        else if(s[0]=='R'){
+            move<<"1\n";
+            move<<s[2]<<s[3]<<"\n";
+            move<<"0";
+        }
+        else{
+            cout<<"outPut string error\n";
+            exit(1);
+        }
+    }
+}
 

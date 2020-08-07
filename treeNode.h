@@ -9,7 +9,7 @@
 class treeNode{
     public:
         treeNode();//empty
-        treeNode(treeNode*); //root
+        //treeNode(treeNode*); //root
         //treeNode(treeNode*,board*);//next nodes
         treeNode(bool,U32[],int[]);
         virtual ~treeNode(){}
@@ -17,7 +17,7 @@ class treeNode{
         int selection=0;
 
         //treeNode *parent;
-        vector<treeNode*> children;
+        //vector<treeNode*> children;
 
         //board *nodeBoard;
         U32 piece[16]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0xFFFFFFFF};
@@ -28,8 +28,8 @@ class treeNode{
 
         
 
-        void printBoard();
-        void printMoves();
+        //void printBoard();
+        //void printMoves();
         
 
 };
