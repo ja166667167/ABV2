@@ -234,8 +234,13 @@ treeNode* readFile(){
         else
             meFirst = false;
     }
-
-    root->playerColor = firstColor && meFirst;
+    //get firstColor
+    if(meFirst){
+        root->playerColor=firstColor;
+    }
+    else{
+        root->playerColor=!firstColor;
+    }
 
     file.close();
     //generate move
@@ -249,8 +254,8 @@ treeNode *root=readFile();
 int main(){
 
     clock_t t = clock();
+    root->printBoard();
 
-    int ans=0;
     try{
     AB(root);
     }
@@ -261,7 +266,8 @@ int main(){
     cout<<"time="<<((float)t)/CLOCKS_PER_SEC<<"\n";
     cout<<"depth="<<getDepthLim()<<"\n";
     cout<<"nodes: "<<getNodeCount()<<"\n";
-    cout<<"ans= "<<ans<<"\n";
+
+    cout<<"result: "<<outPut<<"\n";
 
     return 0;
 }

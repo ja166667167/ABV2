@@ -1,29 +1,30 @@
 #include"ab.h"
 
-int depthLimit=3;
+int depthLimit=5;
 
 int depthCount=0;
 
 unsigned long long nodeCount=1;
 
 U32 red=0,black=0,occupied=0;
-
-int outPutScore=0;
 string outPut;
+
 void AB(treeNode* root){
-    outPutScore = max(root,INT_MIN,INT_MAX);
+    treeNode* newNode = max(root,INT_MIN,INT_MAX);
+    cout<<"value="<<newNode->value<<endl;
     makeMove(outPut);
 }
 
-int max(treeNode *thisNode,int alpha,int beta){
+treeNode* max(treeNode *thisNode,int alpha,int beta){
     //cout<<"--------------------------------\n";
     nodeCount++;
     //int t;
-    int m =alpha;
+    thisNode->value =alpha;
 
     if(depthLimit==depthCount){
         depthCount--;
-        return chessTypeValue(thisNode);
+        thisNode->value = chessTypeValue(thisNode);
+        return thisNode;
     }
     else{
 
@@ -126,44 +127,20 @@ int max(treeNode *thisNode,int alpha,int beta){
                             }
 //next level                            
                             depthCount++;
-                            int t=min(newNode,m,beta);
-                            delete newNode;
-                            if(t>m){
-                                        m=t;
-                                        if(depthCount==0)outPut=result;
-                                }
-                            if(m>=beta){
-                                    depthCount--;
-                                    return m;
-                            }
-                        }
-                        else if( result[0]=='R'){
-                            int revP =     result[2] - 96 + (    result[3] - 49) * 4;
-                            U32 rev = InttoU32(revP);
-                            for (int a = 1; a < 15; a++){
-
-                                if (thisNode->numUnrevealPiece[a] != 0)//此棋種還有位翻開的棋
-                                {
-                                    treeNode *newNode = new treeNode(thisNode->playerColor,thisNode->piece,thisNode->numUnrevealPiece);
-                                    newNode->piece[15] =  newNode->piece[15] ^ rev;
-                                    newNode->piece[a] =  newNode->piece[a] | rev;
-                                    newNode->numUnrevealPiece[a]--;
-//next level                                    
-                                    depthCount++;
-                                    int t=min(newNode,m,beta);
-                                    delete newNode;
-                                    if(t>m){
-                                            m=t;
-                                            if(depthCount==0)outPut=result;
-                                    }
-                                    if(m>=beta){
-                                        depthCount--;
-                                        return m;
-                                    }
-                                }
+                            newNode=min(newNode,thisNode->value,beta);
                             
+                            if(newNode->value>thisNode->value){
+                                thisNode->value=newNode->value;
+                                if(depthCount==1)
+                                    outPut=result;
+                                
                             }
-                        }      
+                            if(thisNode->value>=beta){
+                                    depthCount--;
+                                    return thisNode;
+                            }
+                            delete newNode;
+                        }
                         else{
                             cout << "child setting ERROR!!!!!!!!!!!!!!!" << endl;
                         }
@@ -259,44 +236,19 @@ int max(treeNode *thisNode,int alpha,int beta){
                             }
 //next level                            
                             depthCount++;
-                            int t=min(newNode,m,beta);
-                            delete newNode;
-                            if(t>m){
-                                    m=t;
-                                    if(depthCount==0)outPut=result;
-                            }
-                            if(m>=beta){
-                                depthCount--;
-                                return m;
-                            }
-                        }
-                        else if( result[0]=='R'){
-                            int revP =     result[2] - 96 + (    result[3] - 49) * 4;
-                            U32 rev = InttoU32(revP);
-                            for (int a = 1; a < 15; a++){
-
-                                if (thisNode->numUnrevealPiece[a] != 0)//此棋種還有位翻開的棋
-                                {
-                                    treeNode *newNode = new treeNode(thisNode->playerColor,thisNode->piece,thisNode->numUnrevealPiece);
-                                    newNode->piece[15] =  newNode->piece[15] ^ rev;
-                                    newNode->piece[a] =  newNode->piece[a] | rev;
-                                    newNode->numUnrevealPiece[a]--;
-//next level                                    
-                                    depthCount++;
-                                    int t=min(newNode,m,beta);
-                                    delete newNode;
-                                    if(t>m){
-                                            m=t;
-                                            if(depthCount==0)outPut=result;
-                                    }
-                                    if(m>=beta){
-                                        depthCount--;
-                                        return m;
-                                    }
-                                }
+                            newNode=min(newNode,thisNode->value,beta);
                             
+                            if(newNode->value>thisNode->value){
+                                thisNode->value=newNode->value;
+                                if(depthCount==1)
+                                    outPut=result;
                             }
-                        }      
+                            if(thisNode->value>=beta){
+                                    depthCount--;
+                                    return thisNode;
+                            }
+                            delete newNode;
+                        }
                         else{
                             cout << "child setting ERROR!!!!!!!!!!!!!!!" << endl;
                         }
@@ -323,42 +275,6 @@ int max(treeNode *thisNode,int alpha,int beta){
                 cout << "unusable move string" << endl;
                 exit(1);
             }
-            if ( result[2] == '-'){   
-                treeNode *newNode = new treeNode(thisNode->playerColor,thisNode->piece,thisNode->numUnrevealPiece);
-                int srcP = result[0] - 96 + (result[1] - 49) * 4;
-                int destP = result[3] - 96 + (result[4] - 49) * 4;
-                U32 src = InttoU32(srcP);
-                U32 dest = InttoU32(destP);
-                for (int i = 0; i < 16; i++)
-                {
-                    if (( newNode->piece[i] != 0) & (( newNode->piece[i] | src) ==  newNode->piece[i]))
-                    {
-
-                        newNode->piece[i] =  newNode->piece[i] ^ src;
-                        newNode->piece[0] =  newNode->piece[0] | src;
-                        for (int j = 0; j < 16; j++)
-                        {
-                            if (( newNode->piece[j] != 0) & (( newNode->piece[j] | dest) ==  newNode->piece[j]))
-                            {
-                                newNode->piece[j] =  newNode->piece[j] ^ dest;
-                            }
-                        }
-                        newNode->piece[i] =  newNode->piece[i] | dest;
-                    }
-                }
-//next level                
-                depthCount++;
-                int t=min(newNode,m,beta);
-                delete newNode;
-                if(t>m){
-                        m=t;
-                        if(depthCount==0)outPut=result;
-                }
-                if(m>=beta){
-                    depthCount--;
-                    return m;
-                }            
-            }
             else if( result[0]=='R'){
                 int revP =     result[2] - 96 + (    result[3] - 49) * 4;
                 U32 rev = InttoU32(revP);
@@ -372,16 +288,18 @@ int max(treeNode *thisNode,int alpha,int beta){
                         newNode->numUnrevealPiece[a]--;
 //next level                        
                         depthCount++;
-                        int t=min(newNode,m,beta);
+                        newNode=min(newNode,thisNode->value,beta);
+                        
+                        if(newNode->value>thisNode->value){
+                            thisNode->value=newNode->value;
+                            if(depthCount==1)
+                                    outPut=result;
+                        }
+                        if(thisNode->value>=beta){
+                                depthCount--;
+                                return thisNode;
+                        }
                         delete newNode;
-                        if(t>m){
-                                m=t;
-                                if(depthCount==0)outPut=result;
-                        }
-                        if(m>=beta){
-                            depthCount--;
-                            return m;
-                        }
                     }
                 
                 }
@@ -396,18 +314,18 @@ int max(treeNode *thisNode,int alpha,int beta){
     }    
     depthCount--;
 
-    return m;
+    return thisNode;
 }
 
-int min(treeNode *thisNode,int alpha,int beta){
+treeNode* min(treeNode *thisNode,int alpha,int beta){
     //cout<<"--------------------------------\n";
     nodeCount++;
     //int t;
-    int m =beta;
+    thisNode->value =beta;
 
     if(depthLimit==depthCount){
         depthCount--;
-        return chessTypeValue(thisNode);
+        thisNode->value=chessTypeValue(thisNode);
     }
     else{
 
@@ -510,44 +428,19 @@ int min(treeNode *thisNode,int alpha,int beta){
                             }
 //next level                            
                             depthCount++;
-                            int t=max(newNode,alpha,m);
-                            delete newNode;
-                            if(t<m){
-                                    m=t;
-                                    if(depthCount==0)outPut=result;
-                            }
-                            if(m<=alpha){
-                                depthCount--;
-                                return m;
-                            }
-                        }
-                        else if( result[0]=='R'){
-                            int revP =     result[2] - 96 + (    result[3] - 49) * 4;
-                            U32 rev = InttoU32(revP);
-                            for (int a = 1; a < 15; a++){
-
-                                if (thisNode->numUnrevealPiece[a] != 0)//此棋種還有位翻開的棋
-                                {
-                                    treeNode *newNode = new treeNode(thisNode->playerColor,thisNode->piece,thisNode->numUnrevealPiece);
-                                    newNode->piece[15] =  newNode->piece[15] ^ rev;
-                                    newNode->piece[a] =  newNode->piece[a] | rev;
-                                    newNode->numUnrevealPiece[a]--;
-//nexl level                                    
-                                    depthCount++;
-                                    int t=max(newNode,alpha,m);
-                                    delete newNode;
-                                    if(t<m){
-                                            m=t;
-                                            if(depthCount==0)outPut=result;
-                                    }
-                                    if(m<=alpha){
-                                        depthCount--;
-                                        return m;
-                                    }
-                                }
+                            newNode=max(newNode,alpha,thisNode->value);
                             
+                            if(newNode->value<thisNode->value){
+                                    thisNode->value=newNode->value;
+                                    if(depthCount==1)
+                                    outPut=result;
                             }
-                        }      
+                            if(thisNode->value<=alpha){
+                                depthCount--;
+                                return thisNode;
+                            }
+                            delete newNode;
+                        }
                         else{
                             cout << "child setting ERROR!!!!!!!!!!!!!!!" << endl;
                         }
@@ -643,44 +536,19 @@ int min(treeNode *thisNode,int alpha,int beta){
                             }
 //next level                            
                             depthCount++;
-                            int t=max(newNode,alpha,m);
-                            delete newNode;
-                            if(t<m){
-                                    m=t;
-                                    if(depthCount==0)outPut=result;
-                            }
-                            if(m<=alpha){
-                                depthCount--;
-                                return m;
-                            }
-                        }
-                        else if( result[0]=='R'){
-                            int revP =     result[2] - 96 + (    result[3] - 49) * 4;
-                            U32 rev = InttoU32(revP);
-                            for (int a = 1; a < 15; a++){
-
-                                if (thisNode->numUnrevealPiece[a] != 0)//此棋種還有位翻開的棋
-                                {
-                                    treeNode *newNode = new treeNode(thisNode->playerColor,thisNode->piece,thisNode->numUnrevealPiece);
-                                    newNode->piece[15] =  newNode->piece[15] ^ rev;
-                                    newNode->piece[a] =  newNode->piece[a] | rev;
-                                    newNode->numUnrevealPiece[a]--;
-//next level                                    
-                                    depthCount++;
-                                    int t=max(newNode,alpha,m);
-                                    delete newNode;
-                                    if(t<m){
-                                            m=t;
-                                            if(depthCount==0)outPut=result;
-                                    }
-                                    if(m<=alpha){
-                                        depthCount--;
-                                        return m;
-                                    }
-                                }
+                            newNode=max(newNode,alpha,thisNode->value);
                             
+                            if(newNode->value<thisNode->value){
+                                    thisNode->value=newNode->value;
+                                    if(depthCount==1)
+                                    outPut=result;
                             }
-                        }      
+                            if(thisNode->value<=alpha){
+                                depthCount--;
+                                return thisNode;
+                            }
+                            delete newNode;
+                        }
                         else{
                             cout << "child setting ERROR!!!!!!!!!!!!!!!" << endl;
                         }
@@ -707,42 +575,6 @@ int min(treeNode *thisNode,int alpha,int beta){
                 cout << "unusable move string" << endl;
                 exit(1);
             }
-            if ( result[2] == '-'){   
-                treeNode *newNode = new treeNode(thisNode->playerColor,thisNode->piece,thisNode->numUnrevealPiece);
-                int srcP = result[0] - 96 + (result[1] - 49) * 4;
-                int destP = result[3] - 96 + (result[4] - 49) * 4;
-                U32 src = InttoU32(srcP);
-                U32 dest = InttoU32(destP);
-                for (int i = 0; i < 16; i++)
-                {
-                    if (( newNode->piece[i] != 0) & (( newNode->piece[i] | src) ==  newNode->piece[i]))
-                    {
-
-                        newNode->piece[i] =  newNode->piece[i] ^ src;
-                        newNode->piece[0] =  newNode->piece[0] | src;
-                        for (int j = 0; j < 16; j++)
-                        {
-                            if (( newNode->piece[j] != 0) & (( newNode->piece[j] | dest) ==  newNode->piece[j]))
-                            {
-                                newNode->piece[j] =  newNode->piece[j] ^ dest;
-                            }
-                        }
-                        newNode->piece[i] =  newNode->piece[i] | dest;
-                    }
-                }
-//next level
-                depthCount++;
-                int t=max(newNode,alpha,m);
-                delete newNode;
-                if(t<m){
-                        m=t;
-                        if(depthCount==0)outPut=result;
-                }
-                if(m<=alpha){
-                    depthCount--;
-                    return m;
-                }
-            }
             else if( result[0]=='R'){
                 int revP =     result[2] - 96 + (    result[3] - 49) * 4;
                 U32 rev = InttoU32(revP);
@@ -756,16 +588,18 @@ int min(treeNode *thisNode,int alpha,int beta){
                         newNode->numUnrevealPiece[a]--;
 //next level                        
                         depthCount++;
-                        int t=max(newNode,alpha,m);
-                        delete newNode;;
-                        if(t<m){
-                                m=t;
-                                if(depthCount==0)outPut=result;
+                        newNode=max(newNode,alpha,thisNode->value);
+                        
+                        if(newNode->value<thisNode->value){
+                                thisNode->value=newNode->value;
+                                if(depthCount==1)
+                                    outPut=result;
                         }
-                        if(m<=alpha){
+                        if(thisNode->value<=alpha){
                             depthCount--;
-                            return m;
+                            return thisNode;
                         }
+                        delete newNode;
                     }
                 
                 }
@@ -778,7 +612,7 @@ int min(treeNode *thisNode,int alpha,int beta){
 
     }    
     depthCount--;
-    return m;
+    return thisNode;
 }
 
 unsigned long long getNodeCount(){
@@ -786,9 +620,6 @@ unsigned long long getNodeCount(){
 }
 int getDepthLim(){
     return depthLimit;
-}
-string getOutPut(){
-    return outPut;
 }
 
 U32 generateCMove(U32 u32src){
@@ -929,9 +760,12 @@ void makeMove(string s){
             move<<"0";
         }
         else{
+            cout<<outPut<<"\n";
             cout<<"outPut string error\n";
             exit(1);
         }
     }
 }
 
+// treeNode* generateMove(treeNode *thisNode){}
+// treeNode* nextNode(treeNode* thisNode){}

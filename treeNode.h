@@ -21,14 +21,18 @@ class treeNode{
 
         //board *nodeBoard;
         U32 piece[16]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0xFFFFFFFF};
+        //red =0, black=1
         bool playerColor;
         int numUnrevealPiece[16] = {0,1,2,2,2,2,2,5,1,2,2,2,2,2,5,0};
         //move boardMove;
+        int value=0;
+        //string chosenMove;
+        
 
 
         
 
-        //void printBoard();
+        void printBoard();
         //void printMoves();
         
 
