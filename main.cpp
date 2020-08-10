@@ -8,6 +8,8 @@
 
 using namespace std;
 
+
+
 treeNode* readFile(){
 
     treeNode *root=new treeNode();
@@ -255,7 +257,7 @@ int main(){
 
     clock_t t = clock();
     root->printBoard();
-
+    cout<<"start="<<deleteCount<<"\n";
     try{
     AB(root);
     }
@@ -263,11 +265,12 @@ int main(){
        cout<<"bad Allocation caught:"<<ba.what()<<"\n";
     }
     t=clock()-t;
+    cout<<"end="<<deleteCount<<"\n";
     cout<<"time="<<((float)t)/CLOCKS_PER_SEC<<"\n";
     cout<<"depth="<<getDepthLim()<<"\n";
     cout<<"nodes: "<<getNodeCount()<<"\n";
 
-    cout<<"result: "<<outPut<<"\n";
+    cout<<"result: "<<root->chosenMove<<"\n";
 
     return 0;
 }

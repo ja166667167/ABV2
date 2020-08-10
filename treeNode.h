@@ -4,7 +4,7 @@
 #include<iostream>
 #include<vector>
 #include"U32.h"
-
+extern int deleteCount;
 
 class treeNode{
     public:
@@ -12,9 +12,9 @@ class treeNode{
         //treeNode(treeNode*); //root
         //treeNode(treeNode*,board*);//next nodes
         treeNode(bool,U32[],int[]);
-        virtual ~treeNode(){}
+        virtual ~treeNode();
 
-        int selection=0;
+        //int selection=0;
 
         //treeNode *parent;
         //vector<treeNode*> children;
@@ -26,12 +26,8 @@ class treeNode{
         int numUnrevealPiece[16] = {0,1,2,2,2,2,2,5,1,2,2,2,2,2,5,0};
         //move boardMove;
         int value=0;
-        //string chosenMove;
+        string chosenMove;
         
-
-
-        
-
         void printBoard();
         //void printMoves();
         

@@ -1,22 +1,23 @@
 #include"ab.h"
 
-int depthLimit=5;
+int depthLimit=6;
 
 int depthCount=0;
 
-unsigned long long nodeCount=1;
+unsigned long long nodeCount=0;
 
 U32 red=0,black=0,occupied=0;
 string outPut;
 
 void AB(treeNode* root){
-    treeNode* newNode = max(root,INT_MIN,INT_MAX);
-    cout<<"value="<<newNode->value<<endl;
-    makeMove(outPut);
+    root = max(root,INT_MIN,INT_MAX);
+    cout<<"value="<<root->value<<endl;
+    makeMove(root->chosenMove);
 }
 
 treeNode* max(treeNode *thisNode,int alpha,int beta){
     //cout<<"--------------------------------\n";
+    depthCount++;
     nodeCount++;
     //int t;
     thisNode->value =alpha;
@@ -126,20 +127,21 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
                                 }
                             }
 //next level                            
-                            depthCount++;
+                            //depthCount++;
                             newNode=min(newNode,thisNode->value,beta);
                             
                             if(newNode->value>thisNode->value){
                                 thisNode->value=newNode->value;
                                 if(depthCount==1)
-                                    outPut=result;
+                                    thisNode->chosenMove=result;
                                 
                             }
+                            delete newNode;
                             if(thisNode->value>=beta){
                                     depthCount--;
                                     return thisNode;
                             }
-                            delete newNode;
+                            
                         }
                         else{
                             cout << "child setting ERROR!!!!!!!!!!!!!!!" << endl;
@@ -235,19 +237,20 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
                                 }
                             }
 //next level                            
-                            depthCount++;
+                            //depthCount++;
                             newNode=min(newNode,thisNode->value,beta);
                             
                             if(newNode->value>thisNode->value){
                                 thisNode->value=newNode->value;
                                 if(depthCount==1)
-                                    outPut=result;
+                                    thisNode->chosenMove=result;
                             }
+                            delete newNode;
                             if(thisNode->value>=beta){
                                     depthCount--;
                                     return thisNode;
                             }
-                            delete newNode;
+                            
                         }
                         else{
                             cout << "child setting ERROR!!!!!!!!!!!!!!!" << endl;
@@ -286,20 +289,21 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
                         newNode->piece[15] =  newNode->piece[15] ^ rev;
                         newNode->piece[a] =  newNode->piece[a] | rev;
                         newNode->numUnrevealPiece[a]--;
-//next level                        
-                        depthCount++;
+//next level             
+                        //depthCount++;
                         newNode=min(newNode,thisNode->value,beta);
                         
                         if(newNode->value>thisNode->value){
                             thisNode->value=newNode->value;
                             if(depthCount==1)
-                                    outPut=result;
+                                    thisNode->chosenMove=result;
                         }
+                        delete newNode;
                         if(thisNode->value>=beta){
                                 depthCount--;
                                 return thisNode;
                         }
-                        delete newNode;
+                        
                     }
                 
                 }
@@ -318,6 +322,7 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
 }
 
 treeNode* min(treeNode *thisNode,int alpha,int beta){
+    depthCount++;
     //cout<<"--------------------------------\n";
     nodeCount++;
     //int t;
@@ -326,6 +331,7 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
     if(depthLimit==depthCount){
         depthCount--;
         thisNode->value=chessTypeValue(thisNode);
+        return thisNode;
     }
     else{
 
@@ -427,19 +433,20 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
                                 }
                             }
 //next level                            
-                            depthCount++;
+                            //depthCount++;
                             newNode=max(newNode,alpha,thisNode->value);
                             
                             if(newNode->value<thisNode->value){
                                     thisNode->value=newNode->value;
                                     if(depthCount==1)
-                                    outPut=result;
+                                    thisNode->chosenMove=result;
                             }
+                            delete newNode;
                             if(thisNode->value<=alpha){
                                 depthCount--;
                                 return thisNode;
                             }
-                            delete newNode;
+                            
                         }
                         else{
                             cout << "child setting ERROR!!!!!!!!!!!!!!!" << endl;
@@ -535,19 +542,20 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
                                 }
                             }
 //next level                            
-                            depthCount++;
+                            //depthCount++;
                             newNode=max(newNode,alpha,thisNode->value);
                             
                             if(newNode->value<thisNode->value){
                                     thisNode->value=newNode->value;
                                     if(depthCount==1)
-                                    outPut=result;
+                                    thisNode->chosenMove=result;
                             }
+                            delete newNode;
                             if(thisNode->value<=alpha){
                                 depthCount--;
                                 return thisNode;
                             }
-                            delete newNode;
+                            
                         }
                         else{
                             cout << "child setting ERROR!!!!!!!!!!!!!!!" << endl;
@@ -587,19 +595,19 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
                         newNode->piece[a] =  newNode->piece[a] | rev;
                         newNode->numUnrevealPiece[a]--;
 //next level                        
-                        depthCount++;
+                        //depthCount++;
                         newNode=max(newNode,alpha,thisNode->value);
                         
                         if(newNode->value<thisNode->value){
                                 thisNode->value=newNode->value;
-                                if(depthCount==1)
-                                    outPut=result;
+                                if(depthCount==1)thisNode->chosenMove=result;
                         }
+                        delete newNode;
                         if(thisNode->value<=alpha){
                             depthCount--;
                             return thisNode;
                         }
-                        delete newNode;
+                        
                     }
                 
                 }
@@ -760,9 +768,8 @@ void makeMove(string s){
             move<<"0";
         }
         else{
-            cout<<outPut<<"\n";
-            cout<<"outPut string error\n";
-            exit(1);
+            cout<<"OutPut string error\n";
+            //exit(1);
         }
     }
 }
