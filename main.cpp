@@ -228,7 +228,7 @@ treeNode* readFile(){
                     break;
                 }
                 root->piece[i] = root->piece[i] | U32Rev;
-                //root->numUreveal->piece[i]--;
+                root->numUnrevealPiece[i]--;
                 //printf("i=%d,intRev=%d,rev=%x,root->piece=%x\n",i,intRev,rev,root->piece[i]);
             }
         }
@@ -257,7 +257,7 @@ int main(){
 
     clock_t t = clock();
     root->printBoard();
-    cout<<"start="<<deleteCount<<"\n";
+    //cout<<"start="<<deleteCount<<"\n";
     try{
     AB(root);
     }
@@ -265,12 +265,12 @@ int main(){
        cout<<"bad Allocation caught:"<<ba.what()<<"\n";
     }
     t=clock()-t;
-    cout<<"end="<<deleteCount<<"\n";
+    //cout<<"end="<<deleteCount<<"\n";
     cout<<"time="<<((float)t)/CLOCKS_PER_SEC<<"\n";
     cout<<"depth="<<getDepthLim()<<"\n";
     cout<<"nodes: "<<getNodeCount()<<"\n";
 
-    cout<<"result: "<<root->chosenMove<<"\n";
+    cout<<"Move: "<<root->chosenMove<<"\n";
 
     return 0;
 }

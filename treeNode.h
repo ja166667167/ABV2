@@ -21,7 +21,8 @@ class treeNode{
 
         //board *nodeBoard;
         U32 piece[16]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0xFFFFFFFF};
-        //red =0, black=1
+        U32 red =0, black=0,occupied=0;
+        //red =0, black=1 
         bool playerColor;
         int numUnrevealPiece[16] = {0,1,2,2,2,2,2,5,1,2,2,2,2,2,5,0};
         //move boardMove;
@@ -29,6 +30,11 @@ class treeNode{
         string chosenMove;
         
         void printBoard();
+
+        U32 generateCMove(U32);
+        void refreshRed();
+        void refreshBlack();
+        void refreshOccupied();
         //void printMoves();
         
 
