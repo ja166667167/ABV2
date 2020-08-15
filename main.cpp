@@ -251,7 +251,14 @@ treeNode* readFile(){
 
 treeNode *root=readFile();
 
-
+void printOrder(treeNode* t){
+    treeNode* c=t;
+    while(c){
+        cout<<c->chosenMove<<"\n";
+        if(c->child)c->child->printBoard();
+        c=c->child;
+    }
+}
 
 int main(){
 
@@ -265,12 +272,13 @@ int main(){
        cout<<"bad Allocation caught:"<<ba.what()<<"\n";
     }
     t=clock()-t;
+    
     //cout<<"end="<<deleteCount<<"\n";
     cout<<"time="<<((float)t)/CLOCKS_PER_SEC<<"\n";
     cout<<"depth="<<getDepthLim()<<"\n";
     cout<<"nodes: "<<getNodeCount()<<"\n";
-
     cout<<"Move: "<<root->chosenMove<<"\n";
-    //cout<<"order="<<order<<endl;
+    cout<<"order=";
+    printOrder(root);
     return 0;
 }

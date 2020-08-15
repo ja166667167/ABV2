@@ -27,8 +27,8 @@ class treeNode{
         int numUnrevealPiece[16] = {0,1,2,2,2,2,2,5,1,2,2,2,2,2,5,0};
         //move boardMove;
         int value=0;
-        string chosenMove;
-        treeNode* child;
+        string chosenMove="not choose yet";
+        treeNode* child=NULL;
         //treeNode* parent;
         void printBoard();
 

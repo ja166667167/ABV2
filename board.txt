@@ -11,6 +11,6 @@
 * X X X X
 * first 2
 * time 900000
-* 1. d7(p) 
+* 1. d7(p)
 * Comment 0 0
 0. 6943

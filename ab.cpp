@@ -1,6 +1,6 @@
 #include"ab.h"
 
-int depthLimit=3;
+int depthLimit=5;
 
 int depthCount=0;
 string order("");
@@ -138,11 +138,15 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
                             if(newNode->value>thisNode->value){
                                 //aadS(result);
                                 thisNode->value=newNode->value;
-                                if(depthCount==1)
-                                    thisNode->chosenMove=result;
+                                thisNode->chosenMove=result;
+                                if(thisNode->child)delete thisNode->child;                              
+                                thisNode->child=newNode;
+                                
                                 
                             }
-                            delete newNode;
+                            else{
+                                delete newNode;
+                            }
                             if(thisNode->value>=beta){
                                     depthCount--;
                                     return thisNode;
@@ -248,12 +252,19 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
                             newNode=min(newNode,thisNode->value,beta);
                             //cout<<"se value= "<<newNode->value<<endl;
                             if(newNode->value>thisNode->value){
+                                
                                 //aadS(result);
                                 thisNode->value=newNode->value;
-                                if(depthCount==1)
-                                    thisNode->chosenMove=result;
+                                thisNode->chosenMove=result;
+                                
+                                if(thisNode->child)delete thisNode->child;
+                                
+                                thisNode->child=newNode;
+                                
                             }
-                            delete newNode;
+                            else{
+                                delete newNode;
+                            }
                             if(thisNode->value>=beta){
                                     depthCount--;
                                     return thisNode;
@@ -298,18 +309,22 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
                         newNode->piece[a] =  newNode->piece[a] | rev;
                         newNode->numUnrevealPiece[a]--;
 //next level             
+
                         //depthCount++;
                         //newNode->printBoard();
                         newNode=min(newNode,thisNode->value,beta);
                         //cout<<"r value= "<<newNode->value<<endl;
                         
-                        if(newNode->value>thisNode->value){
-                            //aadS(result);
-                            thisNode->value=newNode->value;
-                            if(depthCount==1)
-                                    thisNode->chosenMove=result;
-                        }
-                        delete newNode;
+                            if(newNode->value>thisNode->value){                             
+                                //aadS(result);
+                                thisNode->value=newNode->value;
+                                thisNode->chosenMove=result;
+                                if(thisNode->child)delete thisNode->child;
+                                thisNode->child=newNode;
+                            }
+                            else{
+                                delete newNode;
+                            }
                         if(thisNode->value>=beta){
                                 depthCount--;
                                 return thisNode;
@@ -453,10 +468,13 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
                             if(newNode->value<thisNode->value){
                                 //aadS(result);
                                 thisNode->value=newNode->value;
-                                if(depthCount==1)
                                 thisNode->chosenMove=result;
+                                 if(thisNode->child)delete thisNode->child;
+                                thisNode->child=newNode;
                             }
-                            delete newNode;
+                            else{
+                                delete newNode;
+                            }
                             if(thisNode->value<=alpha){
                                 depthCount--;
                                 return thisNode;
@@ -566,10 +584,13 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
                             if(newNode->value<thisNode->value){
                                 //aadS(result);
                                 thisNode->value=newNode->value;
-                                if(depthCount==1)
                                 thisNode->chosenMove=result;
+                                 if(thisNode->child)delete thisNode->child;
+                                thisNode->child=newNode;
                             }
-                            delete newNode;
+                            else{
+                                delete newNode;
+                            }
                             if(thisNode->value<=alpha){
                                 depthCount--;
                                 return thisNode;
@@ -622,12 +643,15 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
                             //cout<<RedColor<<"r value= "<<newNode->value<<RESET<<endl;                        
                         
                         if(newNode->value<thisNode->value){
-                            //aadS(result);
-                            thisNode->value=newNode->value;
-                            if(depthCount==1)
-                            thisNode->chosenMove=result;
-                        }
-                        delete newNode;
+                                //aadS(result);
+                                thisNode->value=newNode->value;
+                                thisNode->chosenMove=result;
+                                if(thisNode->child)delete thisNode->child;
+                                thisNode->child=newNode;
+                            }
+                            else{
+                                delete newNode;
+                            }
                         if(thisNode->value<=alpha){
                             depthCount--;
                             return thisNode;
