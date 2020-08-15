@@ -271,6 +271,6 @@ int main(){
     cout<<"nodes: "<<getNodeCount()<<"\n";
 
     cout<<"Move: "<<root->chosenMove<<"\n";
-
+    //cout<<"order="<<order<<endl;
     return 0;
 }

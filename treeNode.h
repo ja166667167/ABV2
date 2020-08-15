@@ -28,7 +28,8 @@ class treeNode{
         //move boardMove;
         int value=0;
         string chosenMove;
-        
+        treeNode* child;
+        //treeNode* parent;
         void printBoard();
 
         U32 generateCMove(U32);

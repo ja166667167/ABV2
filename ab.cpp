@@ -3,7 +3,7 @@
 int depthLimit=3;
 
 int depthCount=0;
-
+string order("");
 unsigned long long nodeCount=0;
 
 
@@ -136,6 +136,7 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
                             newNode=min(newNode,thisNode->value,beta);
                             // cout<<"se value="<<newNode->value<<endl;
                             if(newNode->value>thisNode->value){
+                                //aadS(result);
                                 thisNode->value=newNode->value;
                                 if(depthCount==1)
                                     thisNode->chosenMove=result;
@@ -241,11 +242,13 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
                                 }
                             }
 //next level                            
+                            
                             //depthCount++;
                             //newNode->printBoard();
                             newNode=min(newNode,thisNode->value,beta);
                             //cout<<"se value= "<<newNode->value<<endl;
                             if(newNode->value>thisNode->value){
+                                //aadS(result);
                                 thisNode->value=newNode->value;
                                 if(depthCount==1)
                                     thisNode->chosenMove=result;
@@ -301,6 +304,7 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
                         //cout<<"r value= "<<newNode->value<<endl;
                         
                         if(newNode->value>thisNode->value){
+                            //aadS(result);
                             thisNode->value=newNode->value;
                             if(depthCount==1)
                                     thisNode->chosenMove=result;
@@ -447,9 +451,10 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
                             //cout<<RedColor<<"se value= "<<newNode->value<<RESET<<endl; 
 
                             if(newNode->value<thisNode->value){
-                                    thisNode->value=newNode->value;
-                                    if(depthCount==1)
-                                    thisNode->chosenMove=result;
+                                //aadS(result);
+                                thisNode->value=newNode->value;
+                                if(depthCount==1)
+                                thisNode->chosenMove=result;
                             }
                             delete newNode;
                             if(thisNode->value<=alpha){
@@ -528,7 +533,8 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
                             cout << "unusable move string" << endl;
                             exit(1);
                         }
-                        if ( result[2] == '-'){   
+                        if ( result[2] == '-'){
+                            //cout<<result<<"\n";   
                             treeNode *newNode = new treeNode(!thisNode->playerColor,thisNode->piece,thisNode->numUnrevealPiece);
                             int srcP = result[0] - 96 + (result[1] - 49) * 4;
                             int destP = result[3] - 96 + (result[4] - 49) * 4;
@@ -556,11 +562,12 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
                             //newNode->printBoard();
                             newNode=max(newNode,alpha,thisNode->value);
                             //cout<<RedColor<<"se value= "<<newNode->value<<RESET<<endl; 
-
+                            //cout<<"v= "<<newNode->value<<endl;
                             if(newNode->value<thisNode->value){
-                                    thisNode->value=newNode->value;
-                                    if(depthCount==1)
-                                    thisNode->chosenMove=result;
+                                //aadS(result);
+                                thisNode->value=newNode->value;
+                                if(depthCount==1)
+                                thisNode->chosenMove=result;
                             }
                             delete newNode;
                             if(thisNode->value<=alpha){
@@ -615,8 +622,10 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
                             //cout<<RedColor<<"r value= "<<newNode->value<<RESET<<endl;                        
                         
                         if(newNode->value<thisNode->value){
-                                thisNode->value=newNode->value;
-                                if(depthCount==1)thisNode->chosenMove=result;
+                            //aadS(result);
+                            thisNode->value=newNode->value;
+                            if(depthCount==1)
+                            thisNode->chosenMove=result;
                         }
                         delete newNode;
                         if(thisNode->value<=alpha){
@@ -669,6 +678,16 @@ void makeMove(string s){
         }
     }
 }
+
+void aadS(string s){
+    
+    if(order.size()>(depthCount-1)*5){
+        order.replace(order.begin()+5*depthCount,order.begin()+5*(depthCount+1),s);
+    }
+    else{
+        order+=s;
+    }
+} 
 
 // treeNode* generateMove(treeNode *thisNode){}
 // treeNode* nextNode(treeNode* thisNode){}
