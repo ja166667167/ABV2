@@ -2,8 +2,8 @@
 
 
 
-int chessTypeValue(treeNode *valueNode){
-        int score = 0;
+float chessTypeValue(treeNode *valueNode){
+        float score = 0;
     //cout << "start score=" << score << endl;
     if (valueNode->playerColor == 0)
     {

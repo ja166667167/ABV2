@@ -273,7 +273,7 @@ int main(){
     }
     t=clock()-t;
     
-    //cout<<"end="<<deleteCount<<"\n";
+    cout<<"end="<<deleteCount<<"\n";
     cout<<"time="<<((float)t)/CLOCKS_PER_SEC<<"\n";
     cout<<"depth="<<getDepthLim()<<"\n";
     cout<<"nodes: "<<getNodeCount()<<"\n";

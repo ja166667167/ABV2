@@ -7,7 +7,7 @@ string order("");
 unsigned long long nodeCount=0;
 
 
-string outPut;
+
 
 void AB(treeNode* root){
     root = max(root,INT_MIN,INT_MAX);
@@ -136,16 +136,13 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
                             newNode=min(newNode,thisNode->value,beta);
                             // cout<<"se value="<<newNode->value<<endl;
                             if(newNode->value>thisNode->value){
-                                //aadS(result);
                                 thisNode->value=newNode->value;
                                 thisNode->chosenMove=result;
-                                if(thisNode->child)delete thisNode->child;                              
+                                if(thisNode->child)deleteTree(thisNode->child);                              
                                 thisNode->child=newNode;
-                                
-                                
                             }
                             else{
-                                delete newNode;
+                                deleteTree(newNode);
                             }
                             if(thisNode->value>=beta){
                                     depthCount--;
@@ -154,7 +151,7 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
                             
                         }
                         else{
-                            cout << "child setting ERROR!!!!!!!!!!!!!!!" << endl;
+                            cout << "next node ERROR!!!!!!!!!!!!!!!" << endl;
                         }
                     
                     }
@@ -251,19 +248,14 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
                             //newNode->printBoard();
                             newNode=min(newNode,thisNode->value,beta);
                             //cout<<"se value= "<<newNode->value<<endl;
-                            if(newNode->value>thisNode->value){
-                                
-                                //aadS(result);
+                            if(newNode->value>thisNode->value){                                
                                 thisNode->value=newNode->value;
                                 thisNode->chosenMove=result;
-                                
-                                if(thisNode->child)delete thisNode->child;
-                                
-                                thisNode->child=newNode;
-                                
+                                if(thisNode->child)deleteTree(thisNode->child);
+                                thisNode->child=newNode;                                
                             }
                             else{
-                                delete newNode;
+                                deleteTree(newNode);
                             }
                             if(thisNode->value>=beta){
                                     depthCount--;
@@ -272,7 +264,7 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
                             
                         }
                         else{
-                            cout << "child setting ERROR!!!!!!!!!!!!!!!" << endl;
+                            cout << "next node ERROR!!!!!!!!!!!!!!!" << endl;
                         }
                     
                     }
@@ -298,45 +290,39 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
                 exit(1);
             }
             else if( result[0]=='R'){
-                int revP =     result[2] - 96 + (    result[3] - 49) * 4;
+                int revP =result[2] - 96 + (    result[3] - 49) * 4;
                 U32 rev = InttoU32(revP);
+                float revealCount=0;
+                float revealSum=0;
                 for (int a = 1; a < 15; a++){
 
                     if (thisNode->numUnrevealPiece[a] != 0)//此棋種還有位翻開的棋
                     {
+                        revealCount++;
                         treeNode *newNode = new treeNode(!thisNode->playerColor,thisNode->piece,thisNode->numUnrevealPiece);
                         newNode->piece[15] =  newNode->piece[15] ^ rev;
                         newNode->piece[a] =  newNode->piece[a] | rev;
                         newNode->numUnrevealPiece[a]--;
-//next level             
-
-                        //depthCount++;
-                        //newNode->printBoard();
                         newNode=min(newNode,thisNode->value,beta);
-                        //cout<<"r value= "<<newNode->value<<endl;
-                        
-                            if(newNode->value>thisNode->value){                             
-                                //aadS(result);
-                                thisNode->value=newNode->value;
-                                thisNode->chosenMove=result;
-                                if(thisNode->child)delete thisNode->child;
-                                thisNode->child=newNode;
-                            }
-                            else{
-                                delete newNode;
-                            }
-                        if(thisNode->value>=beta){
-                                depthCount--;
-                                return thisNode;
-                        }
-                        
+                        revealSum+=newNode->value;
+                        deleteTree(newNode);   
                     }
-                
                 }
+                revealSum/=revealCount;
+//next level                
+                if(revealSum>thisNode->value){                             
+                    thisNode->value=revealSum;
+                    thisNode->chosenMove=result;
+                }
+                if(thisNode->value>=beta){
+                        depthCount--;
+                        return thisNode;
+                }
+
             }
             
             else{
-                cout << "child setting ERROR!!!!!!!!!!!!!!!" << endl;
+                cout << "next node ERROR!!!!!!!!!!!!!!!" << endl;
             }
         
         }
@@ -469,11 +455,11 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
                                 //aadS(result);
                                 thisNode->value=newNode->value;
                                 thisNode->chosenMove=result;
-                                 if(thisNode->child)delete thisNode->child;
+                                 if(thisNode->child)deleteTree(thisNode->child);
                                 thisNode->child=newNode;
                             }
                             else{
-                                delete newNode;
+                                deleteTree(newNode);
                             }
                             if(thisNode->value<=alpha){
                                 depthCount--;
@@ -482,7 +468,7 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
                             
                         }
                         else{
-                            cout << "child setting ERROR!!!!!!!!!!!!!!!" << endl;
+                            cout << "next node ERROR!!!!!!!!!!!!!!!" << endl;
                         }
                     
                     }
@@ -585,11 +571,11 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
                                 //aadS(result);
                                 thisNode->value=newNode->value;
                                 thisNode->chosenMove=result;
-                                 if(thisNode->child)delete thisNode->child;
+                                 if(thisNode->child)deleteTree(thisNode->child);
                                 thisNode->child=newNode;
                             }
                             else{
-                                delete newNode;
+                                deleteTree(newNode);
                             }
                             if(thisNode->value<=alpha){
                                 depthCount--;
@@ -598,7 +584,7 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
                             
                         }
                         else{
-                            cout << "child setting ERROR!!!!!!!!!!!!!!!" << endl;
+                            cout << "next node ERROR!!!!!!!!!!!!!!!" << endl;
                         }
                     
                     }
@@ -626,43 +612,36 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
             else if( result[0]=='R'){
                 int revP =     result[2] - 96 + (    result[3] - 49) * 4;
                 U32 rev = InttoU32(revP);
+                float revealCount=0;
+                float revealSum=0;
                 for (int a = 1; a < 15; a++){
 
-                    if (thisNode->numUnrevealPiece[a] != 0)//此棋種還有位翻開的棋
+                if (thisNode->numUnrevealPiece[a] != 0)//此棋種還有位翻開的棋
                     {
+                        revealCount++;
                         treeNode *newNode = new treeNode(!thisNode->playerColor,thisNode->piece,thisNode->numUnrevealPiece);
                         newNode->piece[15] =  newNode->piece[15] ^ rev;
                         newNode->piece[a] =  newNode->piece[a] | rev;
                         newNode->numUnrevealPiece[a]--;
-//next level   
-
-
-                        //depthCount++;
-                            //newNode->printBoard();
-                            newNode=max(newNode,alpha,thisNode->value);
-                            //cout<<RedColor<<"r value= "<<newNode->value<<RESET<<endl;                        
-                        
-                        if(newNode->value<thisNode->value){
-                                //aadS(result);
-                                thisNode->value=newNode->value;
-                                thisNode->chosenMove=result;
-                                if(thisNode->child)delete thisNode->child;
-                                thisNode->child=newNode;
-                            }
-                            else{
-                                delete newNode;
-                            }
-                        if(thisNode->value<=alpha){
-                            depthCount--;
-                            return thisNode;
-                        }
-                        
+                        newNode=max(newNode,alpha,thisNode->value);
+                        revealSum+=newNode->value;
+                        deleteTree(newNode);                                                
                     }
                 
                 }
+                revealSum/=revealCount;
+//next level
+                if(revealSum<thisNode->value){
+                    thisNode->value=revealSum;
+                    thisNode->chosenMove=result;
+                }
+                if(thisNode->value<=alpha){
+                    depthCount--;
+                    return thisNode;
+                }
             }
             else{
-                cout << "child setting ERROR!!!!!!!!!!!!!!!" << endl;
+                cout << "next node ERROR!!!!!!!!!!!!!!!" << endl;
             }
         
         }
@@ -697,21 +676,18 @@ void makeMove(string s){
             move<<"0";
         }
         else{
+            cout<<"Output="<<s<<endl;
             cout<<"OutPut string error\n";
-            exit(1);
+            //exit(1);
         }
     }
 }
 
-void aadS(string s){
-    
-    if(order.size()>(depthCount-1)*5){
-        order.replace(order.begin()+5*depthCount,order.begin()+5*(depthCount+1),s);
-    }
-    else{
-        order+=s;
-    }
-} 
+void deleteTree(treeNode*t){
+    if(!t)return;
+    deleteTree(t->child);
+    delete t;
+}
 
 // treeNode* generateMove(treeNode *thisNode){}
 // treeNode* nextNode(treeNode* thisNode){}

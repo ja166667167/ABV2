@@ -26,7 +26,10 @@ int getDepthLim();
 
 
 void makeMove(string);
-void addS(string);
+
+void deleteTree(treeNode*);
+
+
 
 
 // treeNode* generateMove(treeNode*);

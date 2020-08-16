@@ -4,7 +4,7 @@
 
 
 
-int chessTypeValue(treeNode*);
+float chessTypeValue(treeNode*);
 int pieceCount(treeNode*,int);
 
 
