@@ -26,7 +26,7 @@ class treeNode{
         bool playerColor;
         int numUnrevealPiece[16] = {0,1,2,2,2,2,2,5,1,2,2,2,2,2,5,0};
         //move boardMove;
-        float value=0;
+        int value=0;
         string chosenMove="not choose yet";
         treeNode* child=NULL;
         //treeNode* parent;

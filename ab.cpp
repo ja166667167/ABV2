@@ -10,12 +10,12 @@ unsigned long long nodeCount=0;
 
 
 void AB(treeNode* root){
-    root = max(root,INT_MIN,INT_MAX);
+    root = maxNode(root,INT_MIN,INT_MAX);
     cout<<"reslut="<<root->value<<endl;
     makeMove(root->chosenMove);
 }
 
-treeNode* max(treeNode *thisNode,int alpha,int beta){
+treeNode* maxNode(treeNode *thisNode,int alpha,int beta){
     //cout<<"--------------------------------\n";
     depthCount++;
     nodeCount++;
@@ -133,7 +133,7 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
 //next level                            
                             //depthCount++;
                             
-                            newNode=min(newNode,thisNode->value,beta);
+                            newNode=minNode(newNode,thisNode->value,beta);
                             // cout<<"se value="<<newNode->value<<endl;
                             if(newNode->value>thisNode->value){
                                 thisNode->value=newNode->value;
@@ -246,7 +246,7 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
                             
                             //depthCount++;
                             //newNode->printBoard();
-                            newNode=min(newNode,thisNode->value,beta);
+                            newNode=minNode(newNode,thisNode->value,beta);
                             //cout<<"se value= "<<newNode->value<<endl;
                             if(newNode->value>thisNode->value){                                
                                 thisNode->value=newNode->value;
@@ -292,8 +292,8 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
             else if( result[0]=='R'){
                 int revP =result[2] - 96 + (    result[3] - 49) * 4;
                 U32 rev = InttoU32(revP);
-                float revealCount=0;
-                float revealSum=0;
+                int revealCount=0;
+                int revealSum=0;
                 for (int a = 1; a < 15; a++){
 
                     if (thisNode->numUnrevealPiece[a] != 0)//此棋種還有位翻開的棋
@@ -303,12 +303,13 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
                         newNode->piece[15] =  newNode->piece[15] ^ rev;
                         newNode->piece[a] =  newNode->piece[a] | rev;
                         newNode->numUnrevealPiece[a]--;
-                        newNode=min(newNode,thisNode->value,beta);
+                        newNode=minNode(newNode,thisNode->value,beta);
                         revealSum+=newNode->value;
                         deleteTree(newNode);   
                     }
                 }
                 revealSum/=revealCount;
+                //cout<<"revSum= "<<revealSum<<endl;
 //next level                
                 if(revealSum>thisNode->value){                             
                     thisNode->value=revealSum;
@@ -333,7 +334,7 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
     return thisNode;
 }
 
-treeNode* min(treeNode *thisNode,int alpha,int beta){
+treeNode* minNode(treeNode *thisNode,int alpha,int beta){
     depthCount++;
     //cout<<"--------------------------------\n";
     nodeCount++;
@@ -448,7 +449,7 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
 //next level                            
                             //depthCount++;
                             //newNode->printBoard();
-                            newNode=max(newNode,alpha,thisNode->value);
+                            newNode=maxNode(newNode,alpha,thisNode->value);
                             //cout<<RedColor<<"se value= "<<newNode->value<<RESET<<endl; 
 
                             if(newNode->value<thisNode->value){
@@ -564,7 +565,7 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
 //next level                            
                             //depthCount++;
                             //newNode->printBoard();
-                            newNode=max(newNode,alpha,thisNode->value);
+                            newNode=maxNode(newNode,alpha,thisNode->value);
                             //cout<<RedColor<<"se value= "<<newNode->value<<RESET<<endl; 
                             //cout<<"v= "<<newNode->value<<endl;
                             if(newNode->value<thisNode->value){
@@ -612,8 +613,8 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
             else if( result[0]=='R'){
                 int revP =     result[2] - 96 + (    result[3] - 49) * 4;
                 U32 rev = InttoU32(revP);
-                float revealCount=0;
-                float revealSum=0;
+                int revealCount=0;
+                int revealSum=0;
                 for (int a = 1; a < 15; a++){
 
                 if (thisNode->numUnrevealPiece[a] != 0)//此棋種還有位翻開的棋
@@ -623,7 +624,7 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
                         newNode->piece[15] =  newNode->piece[15] ^ rev;
                         newNode->piece[a] =  newNode->piece[a] | rev;
                         newNode->numUnrevealPiece[a]--;
-                        newNode=max(newNode,alpha,thisNode->value);
+                        newNode=maxNode(newNode,alpha,thisNode->value);
                         revealSum+=newNode->value;
                         deleteTree(newNode);                                                
                     }

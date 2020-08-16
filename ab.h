@@ -4,6 +4,7 @@
 #include<iostream>
 #include<vector>
 #include<fstream>
+#include<limits>
 #include"treeNode.h"
 #include"evaluation.h"
 
@@ -17,8 +18,8 @@ extern unsigned long long nodeCount;
 
 void AB(treeNode*);
 
-treeNode* max(treeNode*,int,int);
-treeNode* min(treeNode*,int,int);
+treeNode* maxNode(treeNode*,int,int);
+treeNode* minNode(treeNode*,int,int);
 
 
 unsigned long long getNodeCount();

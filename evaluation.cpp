@@ -109,7 +109,7 @@ float chessTypeValue(treeNode *valueNode){
         }
     }
     //cout<<"score="<<score<<endl;
-    return score;
+    return score*10000;
 }
 
 int pieceCount(treeNode*valueNode,int i){
