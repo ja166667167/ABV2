@@ -1,6 +1,6 @@
 #include"ab.h"
 
-int depthLimit=4;
+int depthLimit=7;
 
 int depthCount=0;
 string order("");
@@ -310,12 +310,37 @@ treeNode* maxNode(treeNode *thisNode,int alpha,int beta){
             }
         }
 //reveal        
-        U32 reveal = thisNode->piece[15];
-        U32 mask;
+        U32 reveal=0;
+        //reveal strategy
+        //cout<<thisNode->playerColor<<endl;
+        if(thisNode->playerColor){
+            for(int i=1;i<8;i++){
+                U32 p=thisNode->piece[i];
+                while(p){
+                    U32 mask=LS1B(p);
+                    p^=mask;
+                    reveal=reveal|pReveal[U32toInt(mask)];  
+                }
+                reveal=reveal&thisNode->piece[15];
+            }
+        }
+        else{
+            for(int i=8;i<15;i++){
+                U32 p=thisNode->piece[i];
+                while(p){
+                    U32 mask=LS1B(p);
+                    p^=mask;
+                    reveal=reveal|pReveal[U32toInt(mask)];                 
+                }
+                reveal=reveal&thisNode->piece[15];
+            }
+        }
+        if(reveal==0)
+            reveal=thisNode->piece[15];
         while (reveal)
         {
             string result("\0");
-            mask = LS1B(reveal);
+            U32 mask = LS1B(reveal);
             reveal ^= mask;
             result.append("R(");
             result.append(U32toString(mask));
@@ -660,12 +685,37 @@ treeNode* minNode(treeNode *thisNode,int alpha,int beta){
             }
         }
 //reveal        
-        U32 reveal = thisNode->piece[15];
-        U32 mask;
+        U32 reveal=0;
+        //reveal strategy
+        //cout<<thisNode->playerColor<<endl;
+        if(thisNode->playerColor){
+            for(int i=1;i<8;i++){
+                U32 p=thisNode->piece[i];
+                while(p){
+                    U32 mask=LS1B(p);
+                    p^=mask;
+                    reveal=reveal|pReveal[U32toInt(mask)];  
+                }
+                reveal=reveal&thisNode->piece[15];
+            }
+        }
+        else{
+            for(int i=8;i<15;i++){
+                U32 p=thisNode->piece[i];
+                while(p){
+                    U32 mask=LS1B(p);
+                    p^=mask;
+                    reveal=reveal|pReveal[U32toInt(mask)];                 
+                }
+                reveal=reveal&thisNode->piece[15];
+            }
+        }
+        if(reveal==0)
+            reveal=thisNode->piece[15];
         while (reveal > 0)
         {
             string result("\0");
-            mask = LS1B(reveal);
+            U32 mask = LS1B(reveal);
             reveal ^= mask;
             result.append("R(");
             result.append(U32toString(mask));

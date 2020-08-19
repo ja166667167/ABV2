@@ -256,7 +256,6 @@ treeNode *root=readFile();
 int main(){
 
     clock_t t = clock();
-    cout<<chessTypeValue(root)<<endl;
     root->printBoard();
     //cout<<"start="<<deleteCount<<"\n";
     try{
@@ -271,7 +270,7 @@ int main(){
     cout<<"time="<<((float)t)/CLOCKS_PER_SEC<<"\n";
     cout<<"depth="<<depthLimit<<"\n";
     cout<<"nodes: "<<nodeCount<<"\n";
-    cout<<"newNode="<<newCount<<"\n";
+    //cout<<"newNode="<<newCount<<"\n";
     cout<<"deleteNode="<<deleteCount<<"\n";
     
     cout<<"order=\n";

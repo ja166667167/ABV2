@@ -5,7 +5,7 @@
 #include<vector>
 #include"U32.h"
 extern int deleteCount;
-extern int newCount;
+//extern int newCount;
 
 class treeNode{
     public:

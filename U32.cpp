@@ -50,11 +50,9 @@ string U32toString(U32 p){
 }
 int U32toInt(U32 p){
     int i=0;
-    if(p==0)
-        return 0;
-    while(p!=1){
-        i++;
+    while(p){
         p=p>>1;
+        i++;
     }
     return i;
 }

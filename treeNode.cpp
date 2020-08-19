@@ -1,11 +1,11 @@
 #include"treeNode.h"
 
 int deleteCount=0;
-int newCount=0;
+//int newCount=0;
 
 treeNode::treeNode(){
     //cout<<"newNode\n";
-    newCount++;
+    //newCount++;
 }
 
 // treeNode::treeNode(treeNode* t){
@@ -20,7 +20,7 @@ treeNode::treeNode(bool c,U32 p[],int n[]){
         numUnrevealPiece[i]=n[i];
     }
     playerColor=c;
-    newCount++;
+    //newCount++;
     //cout<<"newNode"<<"\n";
 }
 treeNode::~treeNode(){
