@@ -48,16 +48,16 @@ string U32toString(U32 p){
         }
     return outPut;
 }
+// 0~32: 0=空值 第一格為1
 int U32toInt(U32 p){
     int i=0;
-    if(p==0)
-        return 0;
-    while(p!=1){
-        i++;
+    while(p){
         p=p>>1;
+        i++;
     }
     return i;
 }
+
 U32 InttoU32(int p){
     U32 u=1;
     if(p==0)
