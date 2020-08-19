@@ -34,6 +34,33 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
         thisNode->refreshBlack();
         thisNode->refreshOccupied();
         thisNode->refreshRed();
+        //判斷end game
+        //+-dpth 越早贏越好 越晚輸越好
+        bool endGame=1;
+        for(int i=0;i<16;i++){
+            if(thisNode->numUnrevealPiece[i]!=0)
+            endGame=false;
+        }
+        if(endGame){        
+            if(thisNode->red==0){
+                if(thisNode->playerColor){
+                    thisNode->value=(INT_MAX-1)-depthCount;
+                }
+                else{
+                    thisNode->value=(INT_MIN+1)+depthCount;
+                }
+                return thisNode;
+            }
+            else if(thisNode->black==0){
+                if(thisNode->playerColor){
+                    thisNode->value=(INT_MIN+1)+depthCount;
+                }
+                else{
+                    thisNode->value=(INT_MAX-1)-depthCount;
+                }
+                return thisNode;
+            }
+        }        
         U32 dest;
 //eat and spread
         if (!thisNode->playerColor)
@@ -366,6 +393,32 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
         thisNode->refreshBlack();
         thisNode->refreshOccupied();
         thisNode->refreshRed();
+        //判斷end game
+        bool endGame=1;
+        for(int i=0;i<16;i++){
+            if(thisNode->numUnrevealPiece[i]!=0)
+            endGame=false;
+        }
+        if(endGame){
+            if(thisNode->red==0){
+                if(thisNode->playerColor){
+                    thisNode->value=(INT_MIN+1)+depthCount;
+                }
+                else{
+                    thisNode->value=(INT_MAX-1)-depthCount;
+                }
+                return thisNode;
+            }
+            else if(thisNode->black==0){
+                if(thisNode->playerColor){
+                    thisNode->value=(INT_MAX-1)-depthCount;
+                }
+                else{
+                    thisNode->value=(INT_MIN+1)+depthCount;
+                }
+                return thisNode;
+            }
+        }        
         U32 dest;
 //eat and spread
         if (!thisNode->playerColor)
