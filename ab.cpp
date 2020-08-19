@@ -1,6 +1,6 @@
 #include"ab.h"
 
-int depthLimit=6;
+int depthLimit=10;
 
 int depthCount=0;
 string order("");
@@ -10,12 +10,12 @@ unsigned long long nodeCount=0;
 string outPut;
 
 void AB(treeNode* root){
-    root = max(root,INT_MIN,INT_MAX);
+    root = maxNode(root,INT_MIN,INT_MAX);
     cout<<"reslut="<<root->value<<endl;
     makeMove(root->chosenMove);
 }
 
-treeNode* max(treeNode *thisNode,int alpha,int beta){
+treeNode* maxNode(treeNode *thisNode,int alpha,int beta){
     //cout<<"--------------------------------\n";
     depthCount++;
     nodeCount++;
@@ -158,21 +158,17 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
                                 }
                             }
 //next level                            
-                            //depthCount++;
-                            
-                            newNode=min(newNode,thisNode->value,beta);
+                            newNode=minNode(newNode,thisNode->value,beta);
                             // cout<<"se value="<<newNode->value<<endl;
                             if(newNode->value>thisNode->value){
                                 //aadS(result);
                                 thisNode->value=newNode->value;
                                 thisNode->chosenMove=result;
-                                if(thisNode->child)delete thisNode->child;                              
+                                if(thisNode->child)deleteTree(thisNode->child);                              
                                 thisNode->child=newNode;
-                                
-                                
                             }
                             else{
-                                delete newNode;
+                                deleteTree(newNode);
                             }
                             if(thisNode->value>=beta){
                                     depthCount--;
@@ -276,7 +272,7 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
                             
                             //depthCount++;
                             //newNode->printBoard();
-                            newNode=min(newNode,thisNode->value,beta);
+                            newNode=minNode(newNode,thisNode->value,beta);
                             //cout<<"se value= "<<newNode->value<<endl;
                             if(newNode->value>thisNode->value){
                                 
@@ -284,13 +280,13 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
                                 thisNode->value=newNode->value;
                                 thisNode->chosenMove=result;
                                 
-                                if(thisNode->child)delete thisNode->child;
+                                if(thisNode->child)deleteTree(thisNode->child);
                                 
                                 thisNode->child=newNode;
                                 
                             }
                             else{
-                                delete newNode;
+                                deleteTree(newNode);
                             }
                             if(thisNode->value>=beta){
                                     depthCount--;
@@ -365,18 +361,18 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
 
                         //depthCount++;
                         //newNode->printBoard();
-                        newNode=min(newNode,thisNode->value,beta);
+                        newNode=minNode(newNode,thisNode->value,beta);
                         //cout<<"r value= "<<newNode->value<<endl;
                         
                             if(newNode->value>thisNode->value){                             
                                 //aadS(result);
                                 thisNode->value=newNode->value;
                                 thisNode->chosenMove=result;
-                                if(thisNode->child)delete thisNode->child;
+                                if(thisNode->child)deleteTree(thisNode->child);
                                 thisNode->child=newNode;
                             }
                             else{
-                                delete newNode;
+                                deleteTree(newNode);
                             }
                         if(thisNode->value>=beta){
                                 depthCount--;
@@ -400,7 +396,7 @@ treeNode* max(treeNode *thisNode,int alpha,int beta){
     return thisNode;
 }
 
-treeNode* min(treeNode *thisNode,int alpha,int beta){
+treeNode* minNode(treeNode *thisNode,int alpha,int beta){
     depthCount++;
     //cout<<"--------------------------------\n";
     nodeCount++;
@@ -541,18 +537,18 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
 //next level                            
                             //depthCount++;
                             //newNode->printBoard();
-                            newNode=max(newNode,alpha,thisNode->value);
+                            newNode=maxNode(newNode,alpha,thisNode->value);
                             //cout<<RedColor<<"se value= "<<newNode->value<<RESET<<endl; 
 
                             if(newNode->value<thisNode->value){
                                 //aadS(result);
                                 thisNode->value=newNode->value;
                                 thisNode->chosenMove=result;
-                                 if(thisNode->child)delete thisNode->child;
+                                 if(thisNode->child)deleteTree(thisNode->child);
                                 thisNode->child=newNode;
                             }
                             else{
-                                delete newNode;
+                                deleteTree(newNode);
                             }
                             if(thisNode->value<=alpha){
                                 depthCount--;
@@ -657,18 +653,18 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
 //next level                            
                             //depthCount++;
                             //newNode->printBoard();
-                            newNode=max(newNode,alpha,thisNode->value);
+                            newNode=maxNode(newNode,alpha,thisNode->value);
                             //cout<<RedColor<<"se value= "<<newNode->value<<RESET<<endl; 
                             //cout<<"v= "<<newNode->value<<endl;
                             if(newNode->value<thisNode->value){
                                 //aadS(result);
                                 thisNode->value=newNode->value;
                                 thisNode->chosenMove=result;
-                                 if(thisNode->child)delete thisNode->child;
+                                 if(thisNode->child)deleteTree(thisNode->child);
                                 thisNode->child=newNode;
                             }
                             else{
-                                delete newNode;
+                                deleteTree(newNode);
                             }
                             if(thisNode->value<=alpha){
                                 depthCount--;
@@ -743,18 +739,18 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
 
                         //depthCount++;
                             //newNode->printBoard();
-                            newNode=max(newNode,alpha,thisNode->value);
+                            newNode=maxNode(newNode,alpha,thisNode->value);
                             //cout<<RedColor<<"r value= "<<newNode->value<<RESET<<endl;                        
                         
                         if(newNode->value<thisNode->value){
                                 //aadS(result);
                                 thisNode->value=newNode->value;
                                 thisNode->chosenMove=result;
-                                if(thisNode->child)delete thisNode->child;
+                                if(thisNode->child)deleteTree(thisNode->child);
                                 thisNode->child=newNode;
                             }
                             else{
-                                delete newNode;
+                                deleteTree(newNode);
                             }
                         if(thisNode->value<=alpha){
                             depthCount--;
@@ -776,12 +772,6 @@ treeNode* min(treeNode *thisNode,int alpha,int beta){
     return thisNode;
 }
 
-unsigned long long getNodeCount(){
-    return nodeCount;
-}
-int getDepthLim(){
-    return depthLimit;
-}
 
 
 
@@ -806,16 +796,19 @@ void makeMove(string s){
         }
     }
 }
+void deleteTree(treeNode*t){
+    if(!t)return;
+    deleteTree(t->child);
+    delete t;
+}
 
-void aadS(string s){
-    
-    if(order.size()>(depthCount-1)*5){
-        order.replace(order.begin()+5*depthCount,order.begin()+5*(depthCount+1),s);
+void printOrder(treeNode* t){
+    treeNode* c=t;
+    while(c){
+        cout<<"MOVE="<<c->chosenMove<<"\n";
+        if(c->child)c->child->printBoard();
+        c=c->child;
     }
-    else{
-        order+=s;
-    }
-} 
+}
 
-// treeNode* generateMove(treeNode *thisNode){}
-// treeNode* nextNode(treeNode* thisNode){}
+
