@@ -22,14 +22,12 @@ treeNode* maxNode(treeNode*,int,int);
 treeNode* minNode(treeNode*,int,int);
 
 
-unsigned long long getNodeCount();
-int getDepthLim();
 
 
 void makeMove(string);
 
 void deleteTree(treeNode*);
-
+extern void printOrder(treeNode*);
 
 
 

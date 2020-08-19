@@ -27,11 +27,14 @@ float chessTypeValue(treeNode *valueNode){
                 score += (3 * pieceCount(valueNode,i));
                 break;
             case 6:
-                score += (2 * pieceCount(valueNode,i));
+                score += (6 * pieceCount(valueNode,i));
                 break;
             case 7:
-                score += (1 * pieceCount(valueNode,i));
-                break;
+                if(valueNode->numUnrevealPiece[7]+pieceCount(valueNode,7)<3)
+                    score -= (6* pieceCount(valueNode,i));
+                else    
+                    score -= (1 * pieceCount(valueNode,i));
+                break;                break;
             case 8:
                 score -= (7 * pieceCount(valueNode,i));
                 break;
@@ -48,10 +51,13 @@ float chessTypeValue(treeNode *valueNode){
                 score -= (3 * pieceCount(valueNode,i));
                 break;
             case 13:
-                score -= (2 * pieceCount(valueNode,i));
+                score -= (6 * pieceCount(valueNode,i));
                 break;
             case 14:
-                score -= (1 * pieceCount(valueNode,i));
+                if(valueNode->numUnrevealPiece[14]+pieceCount(valueNode,14)<3)
+                    score -= (6* pieceCount(valueNode,i));
+                else    
+                    score -= (1 * pieceCount(valueNode,i));
                 break;
 
             }
@@ -79,11 +85,14 @@ float chessTypeValue(treeNode *valueNode){
                 score -= (3 * pieceCount(valueNode,i));
                 break;
             case 6:
-                score -= (2 * pieceCount(valueNode,i));
+                score -= (6 * pieceCount(valueNode,i));
                 break;
             case 7:
-                score -= (1 * pieceCount(valueNode,i));
-                break;
+                if(valueNode->numUnrevealPiece[7]+pieceCount(valueNode,7)<3)
+                    score -= (6* pieceCount(valueNode,i));
+                else    
+                    score -= (1 * pieceCount(valueNode,i));
+                break;                break;
             case 8:
                 score += (7 * pieceCount(valueNode,i));
                 break;
@@ -100,11 +109,14 @@ float chessTypeValue(treeNode *valueNode){
                 score += (3 * pieceCount(valueNode,i));
                 break;
             case 13:
-                score += (2 * pieceCount(valueNode,i));
+                score += (6 * pieceCount(valueNode,i));
                 break;
             case 14:
-                score += (1 * pieceCount(valueNode,i));
-                break;
+                if(valueNode->numUnrevealPiece[7]+pieceCount(valueNode,7)<3)
+                    score -= (6* pieceCount(valueNode,i));
+                else    
+                    score -= (1 * pieceCount(valueNode,i));
+                break;                break;
             }
         }
     }

@@ -5,6 +5,7 @@
 #include<vector>
 #include"U32.h"
 extern int deleteCount;
+extern int newCount;
 
 class treeNode{
     public:
@@ -37,7 +38,7 @@ class treeNode{
         void refreshBlack();
         void refreshOccupied();
         //void printMoves();
-        
+
 
 };
 #endif

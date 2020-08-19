@@ -1,6 +1,6 @@
 #include"ab.h"
 
-int depthLimit=5;
+int depthLimit=4;
 
 int depthCount=0;
 string order("");
@@ -34,6 +34,33 @@ treeNode* maxNode(treeNode *thisNode,int alpha,int beta){
         thisNode->refreshBlack();
         thisNode->refreshOccupied();
         thisNode->refreshRed();
+        //判斷end game
+        //+-dpth 越早贏越好 越晚輸越好
+        bool endGame=1;
+        for(int i=0;i<16;i++){
+            if(thisNode->numUnrevealPiece[i]!=0)
+            endGame=false;
+        }
+        if(endGame){        
+            if(thisNode->red==0){
+                if(thisNode->playerColor){
+                    thisNode->value=(INT_MAX-1)-depthCount;
+                }
+                else{
+                    thisNode->value=(INT_MIN+1)+depthCount;
+                }
+                return thisNode;
+            }
+            else if(thisNode->black==0){
+                if(thisNode->playerColor){
+                    thisNode->value=(INT_MIN+1)+depthCount;
+                }
+                else{
+                    thisNode->value=(INT_MAX-1)-depthCount;
+                }
+                return thisNode;
+            }
+        }        
         U32 dest;
 //eat and spread
         if (!thisNode->playerColor)
@@ -99,7 +126,7 @@ treeNode* maxNode(treeNode *thisNode,int alpha,int beta){
                         result.append(U32toString(mask));
                         result.append(1, '-');
                         result.append(U32toString(mask2));
-                        //cout<<result<<endl;
+                        // if(depthCount==1)cout<<result<<endl;
 
 //generate board with move
                         if (result.empty())
@@ -134,11 +161,22 @@ treeNode* maxNode(treeNode *thisNode,int alpha,int beta){
                             //depthCount++;
                             
                             newNode=minNode(newNode,thisNode->value,beta);
-                            // cout<<"se value="<<newNode->value<<endl;
+                            if(newNode->value==INT_MIN){
+                                cout<<thisNode->playerColor<<endl;
+                                cout<<depthCount<<endl;                               
+                                thisNode->printBoard();
+                                cout<<result<<endl;
+                                printOrder(newNode);
+                                cout<<thisNode->chosenMove<<endl;
+                                exit(1);
+                            }
+                            //if(depthCount==1)
+                            //cout<<"--------------------------------------------------------------\n";
+                            //cout<<result<<" thisV= "<<thisNode->value<<", se value= "<<newNode->value<<endl;
                             if(newNode->value>thisNode->value){
                                 thisNode->value=newNode->value;
                                 thisNode->chosenMove=result;
-                                if(thisNode->child)deleteTree(thisNode->child);                              
+                                deleteTree(thisNode->child);                              
                                 thisNode->child=newNode;
                             }
                             else{
@@ -247,11 +285,11 @@ treeNode* maxNode(treeNode *thisNode,int alpha,int beta){
                             //depthCount++;
                             //newNode->printBoard();
                             newNode=minNode(newNode,thisNode->value,beta);
-                            //cout<<"se value= "<<newNode->value<<endl;
+                            //if(depthCount==1)cout<<result<<", se value= "<<newNode->value<<endl;                            
                             if(newNode->value>thisNode->value){                                
                                 thisNode->value=newNode->value;
                                 thisNode->chosenMove=result;
-                                if(thisNode->child)deleteTree(thisNode->child);
+                                deleteTree(thisNode->child);
                                 thisNode->child=newNode;                                
                             }
                             else{
@@ -298,22 +336,25 @@ treeNode* maxNode(treeNode *thisNode,int alpha,int beta){
 
                     if (thisNode->numUnrevealPiece[a] != 0)//此棋種還有位翻開的棋
                     {
-                        revealCount++;
+                        revealCount+=thisNode->numUnrevealPiece[a];
                         treeNode *newNode = new treeNode(!thisNode->playerColor,thisNode->piece,thisNode->numUnrevealPiece);
                         newNode->piece[15] =  newNode->piece[15] ^ rev;
                         newNode->piece[a] =  newNode->piece[a] | rev;
                         newNode->numUnrevealPiece[a]--;
                         newNode=minNode(newNode,thisNode->value,beta);
-                        revealSum+=newNode->value;
+                        //if(depthCount==1)cout<<result<<", r value= "<<newNode->value<<endl;
+                        revealSum+=(newNode->value*thisNode->numUnrevealPiece[a]);
                         deleteTree(newNode);   
                     }
                 }
-                revealSum/=revealCount;
-                //cout<<"revSum= "<<revealSum<<endl;
+                if(revealCount!=0)revealSum/=revealCount;
+                else { cout<<"revealCount==0";exit(1);}
 //next level                
                 if(revealSum>thisNode->value){                             
                     thisNode->value=revealSum;
                     thisNode->chosenMove=result;
+                    deleteTree(thisNode->child);
+                    thisNode->child=NULL;
                 }
                 if(thisNode->value>=beta){
                         depthCount--;
@@ -345,6 +386,8 @@ treeNode* minNode(treeNode *thisNode,int alpha,int beta){
         thisNode->playerColor=!thisNode->playerColor;
         depthCount--;
         thisNode->value=chessTypeValue(thisNode);
+        
+        //cout<<"v= "<<thisNode->value<<endl;
         return thisNode;
     }
     else{
@@ -353,6 +396,32 @@ treeNode* minNode(treeNode *thisNode,int alpha,int beta){
         thisNode->refreshBlack();
         thisNode->refreshOccupied();
         thisNode->refreshRed();
+        //判斷end game
+        bool endGame=1;
+        for(int i=0;i<16;i++){
+            if(thisNode->numUnrevealPiece[i]!=0)
+            endGame=false;
+        }
+        if(endGame){
+            if(thisNode->red==0){
+                if(thisNode->playerColor){
+                    thisNode->value=(INT_MIN+1)+depthCount;
+                }
+                else{
+                    thisNode->value=(INT_MAX-1)-depthCount;
+                }
+                return thisNode;
+            }
+            else if(thisNode->black==0){
+                if(thisNode->playerColor){
+                    thisNode->value=(INT_MAX-1)-depthCount;
+                }
+                else{
+                    thisNode->value=(INT_MIN+1)+depthCount;
+                }
+                return thisNode;
+            }
+        }
         U32 dest;
 //eat and spread
         if (!thisNode->playerColor)
@@ -453,10 +522,9 @@ treeNode* minNode(treeNode *thisNode,int alpha,int beta){
                             //cout<<RedColor<<"se value= "<<newNode->value<<RESET<<endl; 
 
                             if(newNode->value<thisNode->value){
-                                //aadS(result);
                                 thisNode->value=newNode->value;
                                 thisNode->chosenMove=result;
-                                 if(thisNode->child)deleteTree(thisNode->child);
+                                deleteTree(thisNode->child);
                                 thisNode->child=newNode;
                             }
                             else{
@@ -566,13 +634,12 @@ treeNode* minNode(treeNode *thisNode,int alpha,int beta){
                             //depthCount++;
                             //newNode->printBoard();
                             newNode=maxNode(newNode,alpha,thisNode->value);
-                            //cout<<RedColor<<"se value= "<<newNode->value<<RESET<<endl; 
+                            //cout<<RedColor<<result<<" this v= "<<thisNode->value<<"se value= "<<newNode->value<<RESET<<endl; 
                             //cout<<"v= "<<newNode->value<<endl;
                             if(newNode->value<thisNode->value){
-                                //aadS(result);
                                 thisNode->value=newNode->value;
                                 thisNode->chosenMove=result;
-                                 if(thisNode->child)deleteTree(thisNode->child);
+                                 deleteTree(thisNode->child);
                                 thisNode->child=newNode;
                             }
                             else{
@@ -611,7 +678,7 @@ treeNode* minNode(treeNode *thisNode,int alpha,int beta){
                 exit(1);
             }
             else if( result[0]=='R'){
-                int revP =     result[2] - 96 + (    result[3] - 49) * 4;
+                int revP = result[2] - 96 + (result[3] - 49) * 4;
                 U32 rev = InttoU32(revP);
                 int revealCount=0;
                 int revealSum=0;
@@ -619,22 +686,25 @@ treeNode* minNode(treeNode *thisNode,int alpha,int beta){
 
                 if (thisNode->numUnrevealPiece[a] != 0)//此棋種還有位翻開的棋
                     {
-                        revealCount++;
+                        revealCount+=thisNode->numUnrevealPiece[a];
                         treeNode *newNode = new treeNode(!thisNode->playerColor,thisNode->piece,thisNode->numUnrevealPiece);
                         newNode->piece[15] =  newNode->piece[15] ^ rev;
                         newNode->piece[a] =  newNode->piece[a] | rev;
                         newNode->numUnrevealPiece[a]--;
                         newNode=maxNode(newNode,alpha,thisNode->value);
-                        revealSum+=newNode->value;
+                        revealSum+=(newNode->value*thisNode->numUnrevealPiece[a]);
                         deleteTree(newNode);                                                
                     }
                 
                 }
-                revealSum/=revealCount;
+                if(revealCount!=0)revealSum/=revealCount;
+                else {cout<<"revealCount==0";exit(1);}
 //next level
                 if(revealSum<thisNode->value){
                     thisNode->value=revealSum;
                     thisNode->chosenMove=result;
+                    deleteTree(thisNode->child);
+                    thisNode->child=NULL;
                 }
                 if(thisNode->value<=alpha){
                     depthCount--;
@@ -647,21 +717,10 @@ treeNode* minNode(treeNode *thisNode,int alpha,int beta){
         
         }
 
-    }    
+    }
     depthCount--;
     return thisNode;
 }
-
-unsigned long long getNodeCount(){
-    return nodeCount;
-}
-int getDepthLim(){
-    return depthLimit;
-}
-
-
-
-
 
 void makeMove(string s){
     ofstream move("move.txt");
@@ -692,3 +751,12 @@ void deleteTree(treeNode*t){
 
 // treeNode* generateMove(treeNode *thisNode){}
 // treeNode* nextNode(treeNode* thisNode){}
+
+void printOrder(treeNode* t){
+    treeNode* c=t;
+    while(c){
+        cout<<"MOVE="<<c->chosenMove<<"\n";
+        if(c->child)c->child->printBoard();
+        c=c->child;
+    }
+}

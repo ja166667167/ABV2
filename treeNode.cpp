@@ -1,9 +1,11 @@
 #include"treeNode.h"
 
 int deleteCount=0;
+int newCount=0;
 
 treeNode::treeNode(){
     //cout<<"newNode\n";
+    newCount++;
 }
 
 // treeNode::treeNode(treeNode* t){
@@ -18,6 +20,7 @@ treeNode::treeNode(bool c,U32 p[],int n[]){
         numUnrevealPiece[i]=n[i];
     }
     playerColor=c;
+    newCount++;
     //cout<<"newNode"<<"\n";
 }
 treeNode::~treeNode(){
@@ -200,6 +203,7 @@ U32 treeNode::generateCMove(U32 u32src){
             U32 y2 = y & 0x00001111;
             U32 mask1 = MS1B(y2);
             dest1 = dest1 | MS1B(y2 ^= mask1);
+            
         }
         if (r == 5)
         {

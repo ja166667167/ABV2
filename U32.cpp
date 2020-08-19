@@ -71,6 +71,7 @@ U32 LS1B(U32 x){
     return x & (-x);
 }
 U32 MS1B(U32 x){
+    if(!x)return 0;
     x |= (x >> 1);
     x |= (x >> 2);
     x |= (x >> 4);
