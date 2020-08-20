@@ -1,6 +1,6 @@
 #include"ab.h"
 
-int depthLimit=10;
+int depthLimit=7;
 
 int depthCount=0;
 string order("");
