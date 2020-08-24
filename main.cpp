@@ -256,7 +256,7 @@ treeNode *root=readFile();
 int main(){
 
     clock_t t = clock();
-    root->printBoard();
+    //root->printBoard();
     //cout<<"start="<<deleteCount<<"\n";
     try{
     AB(root);
@@ -267,13 +267,13 @@ int main(){
     t=clock()-t;
     
     
-    cout<<"time="<<((float)t)/CLOCKS_PER_SEC<<"\n";
-    cout<<"depth="<<depthLimit<<"\n";
-    cout<<"nodes: "<<nodeCount<<"\n";
-    //cout<<"newNode="<<newCount<<"\n";
-    cout<<"deleteNode="<<deleteCount<<"\n";
+    // cout<<"time="<<((float)t)/CLOCKS_PER_SEC<<"\n";
+    // cout<<"depth="<<depthLimit<<"\n";
+    // cout<<"nodes: "<<nodeCount<<"\n";
+    // //cout<<"newNode="<<newCount<<"\n";
+    // cout<<"deleteNode="<<deleteCount<<"\n";
     
-    cout<<"order=\n";
-    printOrder(root);
+    // cout<<"order=\n";
+    // printOrder(root);
     return 0;
 }
