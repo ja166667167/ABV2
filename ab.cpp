@@ -1,6 +1,6 @@
 #include"ab.h"
 
-int depthLimit=7;
+int depthLimit=4;
 
 int depthCount=0;
 string order("");
@@ -202,9 +202,10 @@ treeNode* maxNode(treeNode *thisNode,int alpha,int beta){
                         dest = pMove[src] & (thisNode->red ^    thisNode->piece[1]);
                         dest = dest|(pMove[src]&  thisNode->piece[0]);
                     }
-                    else if (i == 10)
+                    else if (i == 10){
                         dest = pMove[src] & (thisNode->red ^    thisNode->piece[1] ^    thisNode->piece[1]);
-                    
+                        dest = dest|(pMove[src]&  thisNode->piece[0]);
+                    }
                     else if (i == 11){
                         dest = pMove[src] & (   thisNode->piece[4] |    thisNode->piece[5] |    thisNode->piece[6] |    thisNode->piece[7]);
                         dest = dest|(pMove[src]&  thisNode->piece[0]);
@@ -558,9 +559,10 @@ treeNode* minNode(treeNode *thisNode,int alpha,int beta){
                         dest = pMove[src] & (thisNode->red ^    thisNode->piece[1]);
                         dest = dest|(pMove[src]&  thisNode->piece[0]);
                     }
-                    else if (i == 10)
+                    else if (i == 10){
                         dest = pMove[src] & (thisNode->red ^    thisNode->piece[1] ^    thisNode->piece[1]);
-                    
+                        dest = dest|(pMove[src]&  thisNode->piece[0]);
+                    }                    
                     else if (i == 11){
                         dest = pMove[src] & (   thisNode->piece[4] |    thisNode->piece[5] |    thisNode->piece[6] |    thisNode->piece[7]);
                         dest = dest|(pMove[src]&  thisNode->piece[0]);
